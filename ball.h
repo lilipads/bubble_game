@@ -4,6 +4,7 @@
 #include <QGraphicsObject>
 #include <QGraphicsSceneMouseEvent>
 #include <QLinearGradient>
+#include <QPropertyAnimation>
 #include "tile.h"
 
 class Ball : public QGraphicsObject
@@ -38,12 +39,16 @@ private:
     static const int kSize = 30;
     Position m_position;
     const QColor m_color;
-    bool m_is_animating = false;
+    QPropertyAnimation *m_vertical_animation;
+    QPropertyAnimation *m_position_animation;
 
     // Generates the gradient to create a 3D-looking ball.
     QRadialGradient generateGradient(const QColor &baseColor) const;
 
-    void animateBounce();
+    // Animation for bounce effect.
+    void initializeAnimation();
+    void startAnimation();
+    void stopAnimation();
 };
 
 #endif // BALL_H

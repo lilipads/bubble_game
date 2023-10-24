@@ -2,7 +2,6 @@
 #include <QBrush>
 #include <QPainter>
 #include <QPen>
-#include <QPropertyAnimation>
 
 Ball::Ball(const QColor color, const Tile *tile)
     : m_color(color)
@@ -11,6 +10,7 @@ Ball::Ball(const QColor color, const Tile *tile)
     setAcceptHoverEvents(true);
     setPos(tile->pos().x() + (tile->size() - kSize) / 2,
            tile->pos().y() + (tile->size() - kSize) / 2);
+    initializeAnimation();
 }
 
 void Ball::setScaleY(qreal scaleY)
@@ -40,19 +40,6 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->drawEllipse(boundingRect());
 }
 
-void Ball::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    if (m_is_animating) {
-        return;
-    }
-    if (event->button() == Qt::LeftButton) {
-        animateBounce();
-        m_is_animating = true;
-    }
-    emit onClick(m_position);
-    QGraphicsObject::mousePressEvent(event);
-}
-
 QRadialGradient Ball::generateGradient(const QColor &baseColor) const
 {
     int r = baseColor.red();
@@ -71,25 +58,49 @@ QRadialGradient Ball::generateGradient(const QColor &baseColor) const
     return gradient;
 }
 
-void Ball::animateBounce()
+void Ball::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        if (m_vertical_animation && m_vertical_animation->state() == QAbstractAnimation::Stopped) {
+            startAnimation();
+            emit onClick(m_position);
+        } else {
+            stopAnimation();
+        }
+    }
+    QGraphicsObject::mousePressEvent(event);
+}
+
+void Ball::initializeAnimation()
 {
     const qreal kSquashRatio = 0.8;
-    QPropertyAnimation *verticalAnimation = new QPropertyAnimation(this, "scaleY");
-    verticalAnimation->setDuration(1000);
-    verticalAnimation->setStartValue(1.0);
-    verticalAnimation->setKeyValueAt(0.5, kSquashRatio); // Squash vertically at half duration
-    verticalAnimation->setEndValue(1.0);
-    verticalAnimation->setLoopCount(-1); // Indefinite animation
+    const int kDuration = 1000;
+
+    m_vertical_animation = new QPropertyAnimation(this, "scaleY");
+    m_vertical_animation->setDuration(kDuration);
+    m_vertical_animation->setStartValue(1.0);
+    m_vertical_animation->setKeyValueAt(0.5, kSquashRatio); // Squash vertically at half duration
+    m_vertical_animation->setEndValue(1.0);
+    m_vertical_animation->setLoopCount(-1); // Indefinite animation
 
     // Animation for vertical position to keep bottom y position unchanged
-    QPropertyAnimation *positionAnimation = new QPropertyAnimation(this, "posY");
+    m_position_animation = new QPropertyAnimation(this, "posY");
     qreal originalY = posY();
-    positionAnimation->setDuration(1000);
-    positionAnimation->setStartValue(originalY);
-    positionAnimation->setKeyValueAt(0.5, originalY + kSize * (1 - kSquashRatio));
-    positionAnimation->setEndValue(originalY);
-    positionAnimation->setLoopCount(-1);
+    m_position_animation->setDuration(kDuration);
+    m_position_animation->setStartValue(originalY);
+    m_position_animation->setKeyValueAt(0.5, originalY + kSize * (1 - kSquashRatio));
+    m_position_animation->setEndValue(originalY);
+    m_position_animation->setLoopCount(-1);
+}
 
-    verticalAnimation->start(QAbstractAnimation::DeleteWhenStopped);
-    positionAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+void Ball::startAnimation()
+{
+    m_vertical_animation->start();
+    m_position_animation->start();
+}
+
+void Ball::stopAnimation()
+{
+    m_vertical_animation->stop();
+    m_position_animation->stop();
 }

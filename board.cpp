@@ -9,6 +9,7 @@ Board::Board(int size, QWidget *parent)
     initializeBallTracker();
     addBall(Qt::black, 1, 2);
     addBall(Qt::blue, 3, 6);
+    addBall(Qt::red, 0, 0);
 }
 
 QGraphicsScene *Board::scene() const

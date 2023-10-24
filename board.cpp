@@ -1,14 +1,12 @@
 #include "board.h"
-#include <QGraphicsRectItem>
-#include <QPen>
 
 Board::Board(int size, QWidget *parent)
     : QWidget(parent)
     , m_scene(new QGraphicsScene(this))
     , m_gridSize(size)
 {
-    initializeBoardUi();
-    initializeGrid();
+    initializeTiles();
+    initializeBallTracker();
     addBall(Qt::black, 0, 0);
 }
 
@@ -17,31 +15,26 @@ QGraphicsScene *Board::scene() const
     return m_scene;
 }
 
-void Board::initializeBoardUi()
+void Board::initializeTiles()
 {
-    const QColor backgroundColor = Qt::gray;
-    const QColor borderColor = Qt::darkGray;
-
+    m_tiles = new Tile **[m_gridSize];
     for (int x = 0; x < m_gridSize; ++x) {
+        m_tiles[x] = new Tile *[m_gridSize];
         for (int y = 0; y < m_gridSize; ++y) {
-            QGraphicsRectItem *tile = new QGraphicsRectItem(x * kTileSize,
-                                                            y * kTileSize,
-                                                            kTileSize,
-                                                            kTileSize);
-            tile->setBrush(backgroundColor);
-            tile->setPen(QPen(borderColor));
+            Tile *tile = new Tile({.x = x, .y = y});
+            m_tiles[x][y] = tile;
             m_scene->addItem(tile);
         }
     }
 }
 
-void Board::initializeGrid()
+void Board::initializeBallTracker()
 {
-    m_grid = new Ball **[m_gridSize];
+    m_ball_tracker = new Ball **[m_gridSize];
     for (int x = 0; x < m_gridSize; ++x) {
-        m_grid[x] = new Ball *[m_gridSize];
+        m_ball_tracker[x] = new Ball *[m_gridSize];
         for (int y = 0; y < m_gridSize; ++y) {
-            m_grid[x][y] = nullptr;
+            m_ball_tracker[x][y] = nullptr;
         }
     }
 }
@@ -51,11 +44,9 @@ void Board::addBall(const QColor color, const int x, const int y)
     if (!(x >= 0 && x < m_gridSize && y >= 0 && y < m_gridSize)) {
         return;
     }
-    if (!m_grid[x][y]) { // Check if there's no ball already at the position
-        Ball *ball = new Ball(color, kBallSize);
-        ball->setPos(x * kTileSize + (kTileSize - kBallSize) / 2,
-                     y * kTileSize + (kTileSize - kBallSize) / 2);
+    if (!m_ball_tracker[x][y]) { // Check if there's no ball already at the position
+        Ball *ball = new Ball(color, m_tiles[x][y]);
+        m_ball_tracker[x][y] = ball;
         m_scene->addItem(ball);
-        m_grid[x][y] = ball;
     }
 }

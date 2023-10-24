@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include "QtWidgets/qwidget.h"
 #include "ball.h"
+#include "tile.h"
 
 class Board : public QWidget
 {
@@ -17,19 +18,18 @@ public:
     void addBall(const QColor color, int x, int y);
 
 private:
-    const int kTileSize = 40;
-    const int kBallSize = 30;
-
     QGraphicsScene *m_scene;
     int m_gridSize;
-    // array to track ball placement with pointers to Ball objects.
-    Ball ***m_grid;
+    // Array of pointers to Tile objects.
+    Tile ***m_tiles;
+    // Array of pointers to Ball objects.
+    Ball ***m_ball_tracker;
 
     // Renders an empty grid UI.
-    void initializeBoardUi();
+    void initializeTiles();
 
-    // Initialize all pointers to nullptr.
-    void initializeGrid();
+    // Initializes all pointers to nullptr.
+    void initializeBallTracker();
 };
 
 #endif // BOARD_H

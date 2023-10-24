@@ -4,6 +4,7 @@
 #include <QGraphicsObject>
 #include <QGraphicsSceneMouseEvent>
 #include <QLinearGradient>
+#include "tile.h"
 
 class Ball : public QGraphicsObject
 {
@@ -12,8 +13,8 @@ class Ball : public QGraphicsObject
     Q_PROPERTY(qreal posY READ posY WRITE setPosY NOTIFY posYChanged)
 
 public:
-    Ball(const QColor color, const int size);
-    QColor getColor() const { return m_color; };
+    Ball(const QColor color, const Tile *tile);
+    QColor color() const { return m_color; };
     qreal scaleY() const { return transform().m22(); }
     void setScaleY(qreal scaleY);
     qreal posY() const { return pos().y(); };
@@ -31,7 +32,7 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
-    int m_size;
+    const int kSize = 30;
     const QColor m_color;
     bool m_is_animating = false;
 

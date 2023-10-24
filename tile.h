@@ -17,7 +17,7 @@ public:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
 signals:
-    void onClick(Tile* tile);
+    void onClick(Position position);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override;

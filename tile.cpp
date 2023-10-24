@@ -24,6 +24,6 @@ void Tile::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
 
 void Tile::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    emit onClick(this);
+    emit onClick(m_position);
     QGraphicsObject::mousePressEvent(event);
 }

@@ -52,5 +52,21 @@ void Board::addBall(const QColor color, const int x, const int y)
     }
     Ball *ball = new Ball(color, m_tiles[x][y]);
     m_ball_tracker[x][y] = ball;
+    connect(ball, &Ball::onClick, this, &Board::handleBallClick);
     m_scene->addItem(ball);
+}
+
+void Board::handleTileClick(Position pos)
+{
+    // If the location has a ball, it's an invalid click.
+    if (m_ball_tracker[pos.x][pos.y]) {
+        return;
+    }
+
+    qDebug() << "Tile clicked at position:" << pos.x << pos.y;
+}
+
+void Board::handleBallClick(Position pos)
+{
+    qDebug() << "Ball clicked at position:" << pos.x << pos.y;
 }

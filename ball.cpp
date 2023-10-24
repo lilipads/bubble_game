@@ -6,6 +6,7 @@
 
 Ball::Ball(const QColor color, const Tile *tile)
     : m_color(color)
+    , m_position(tile->position())
 {
     setAcceptHoverEvents(true);
     setPos(tile->pos().x() + (tile->size() - kSize) / 2,
@@ -48,6 +49,7 @@ void Ball::mousePressEvent(QGraphicsSceneMouseEvent *event)
         animateBounce();
         m_is_animating = true;
     }
+    emit onClick(m_position);
     QGraphicsObject::mousePressEvent(event);
 }
 

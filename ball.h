@@ -15,6 +15,8 @@ class Ball : public QGraphicsObject
 public:
     Ball(const QColor color, const Tile *tile);
     QColor color() const { return m_color; };
+    Position position() const { return m_position; }
+
     qreal scaleY() const { return transform().m22(); }
     void setScaleY(qreal scaleY);
     qreal posY() const { return pos().y(); };
@@ -23,6 +25,7 @@ public:
 signals:
     void scaleYChanged();
     void posYChanged();
+    void onClick(Position position);
 
 protected:
     QRectF boundingRect() const override;
@@ -32,7 +35,8 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
-    const int kSize = 30;
+    static const int kSize = 30;
+    Position m_position;
     const QColor m_color;
     bool m_is_animating = false;
 

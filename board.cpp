@@ -52,7 +52,7 @@ void Board::addBall(const QColor color, const int x, const int y)
         return;
     }
     if (!m_grid[x][y]) { // Check if there's no ball already at the position
-        Ball *ball = new Ball(color);
+        Ball *ball = new Ball(color, kBallSize);
         ball->setPos(x * kTileSize + (kTileSize - kBallSize) / 2,
                      y * kTileSize + (kTileSize - kBallSize) / 2);
         m_scene->addItem(ball);

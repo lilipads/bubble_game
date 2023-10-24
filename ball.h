@@ -12,7 +12,7 @@ class Ball : public QGraphicsObject
     Q_PROPERTY(qreal posY READ posY WRITE setPosY NOTIFY posYChanged)
 
 public:
-    Ball(const QColor color);
+    Ball(const QColor color, const int size);
     QColor getColor() const { return m_color; };
     qreal scaleY() const { return transform().m22(); }
     void setScaleY(qreal scaleY);
@@ -31,8 +31,7 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
-    // TODO: get the size as an input
-    static const int BALL_SIZE = 30;
+    int m_size;
     const QColor m_color;
     bool m_is_animating = false;
 

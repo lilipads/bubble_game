@@ -6,10 +6,11 @@
 Ball::Ball(const QColor color, const Tile *tile)
     : m_color(color)
     , m_coordinate(tile->coordinate())
+    , m_x_pos(tile->coordinate().x * tile->size() + (tile->size() - kSize) / 2)
+    , m_y_pos(tile->coordinate().y * tile->size() + (tile->size() - kSize) / 2)
+
 {
     setAcceptHoverEvents(true);
-    setPos(tile->pos().x() + (tile->size() - kSize) / 2,
-           tile->pos().y() + (tile->size() - kSize) / 2);
     initializeAnimation();
 }
 
@@ -29,7 +30,7 @@ void Ball::setPosY(qreal posY)
 
 QRectF Ball::boundingRect() const
 {
-    return QRectF(0, 0, kSize, kSize);
+    return QRectF(m_x_pos, m_y_pos, kSize, kSize);
 }
 
 void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -90,7 +91,6 @@ void Ball::initializeAnimation()
     m_position_animation->setStartValue(originalY);
     m_position_animation->setKeyValueAt(0.5, originalY + kSize * (1 - kSquashRatio));
     m_position_animation->setEndValue(originalY);
-    m_position_animation->setLoopCount(-1);
 }
 
 void Ball::startAnimation()

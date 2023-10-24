@@ -9,7 +9,7 @@ class Tile : public QGraphicsObject
     Q_OBJECT
 
 public:
-    Tile(Coordinate p);
+    Tile(Coordinate c);
     int size() const { return kSize; }
     Coordinate coordinate() const { return m_coordinate; }
 

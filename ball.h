@@ -39,6 +39,9 @@ protected:
 private:
     static const int kSize = 30;
     Coordinate m_coordinate;
+    // Absolute pixel position.
+    const qreal m_x_pos;
+    const qreal m_y_pos;
     const QColor m_color;
     QPropertyAnimation *m_vertical_animation;
     QPropertyAnimation *m_position_animation;

@@ -2,22 +2,22 @@
 #define TILE_H
 
 #include <QGraphicsRectItem>
-#include "position.h"
+#include "coordinate.h"
 
 class Tile : public QGraphicsObject
 {
     Q_OBJECT
 
 public:
-    Tile(Position p);
+    Tile(Coordinate p);
     int size() const { return kSize; }
-    Position position() const { return m_position; }
+    Coordinate coordinate() const { return m_coordinate; }
 
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
 signals:
-    void onClick(Position position);
+    void onClick(Coordinate coordinate);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
@@ -27,7 +27,7 @@ private:
     const QColor kBackgroundColor = Qt::gray;
     const QColor kBorderColor = Qt::darkGray;
 
-    Position m_position;
+    Coordinate m_coordinate;
 };
 
 #endif // TILE_H

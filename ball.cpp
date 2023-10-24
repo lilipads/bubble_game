@@ -5,7 +5,7 @@
 
 Ball::Ball(const QColor color, const Tile *tile)
     : m_color(color)
-    , m_position(tile->position())
+    , m_coordinate(tile->coordinate())
 {
     setAcceptHoverEvents(true);
     setPos(tile->pos().x() + (tile->size() - kSize) / 2,
@@ -63,7 +63,7 @@ void Ball::mousePressEvent(QGraphicsSceneMouseEvent *event)
     if (event->button() == Qt::LeftButton) {
         if (m_vertical_animation && m_vertical_animation->state() == QAbstractAnimation::Stopped) {
             startAnimation();
-            emit onSelect(m_position);
+            emit onSelect(m_coordinate);
         } else {
             stopAnimation();
             emit onUnselect();

@@ -30,7 +30,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         game.h game.cpp
         ball.h ball.cpp
         tile.h tile.cpp
-        position.h
+        coordinate.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET bubbles APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

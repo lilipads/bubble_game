@@ -31,8 +31,8 @@ private:
     // Initializes all pointers to nullptr.
     void initializeBallTracker();
 
-    void handleTileClick(Position pos);
-    void handleBallSelect(Position pos);
+    void handleTileClick(Coordinate coordinate);
+    void handleBallSelect(Coordinate coordinate);
     void handleBallUnselect();
 };
 

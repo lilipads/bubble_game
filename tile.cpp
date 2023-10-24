@@ -3,13 +3,13 @@
 #include <QPainter>
 #include <QPen>
 
-Tile::Tile(Position p)
-    : m_position(p)
+Tile::Tile(Coordinate p)
+    : m_coordinate(p)
 {}
 
 QRectF Tile::boundingRect() const
 {
-    return QRectF(m_position.x * kSize, m_position.y * kSize, kSize, kSize);
+    return QRectF(m_coordinate.x * kSize, m_coordinate.y * kSize, kSize, kSize);
 }
 
 void Tile::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -24,6 +24,6 @@ void Tile::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
 
 void Tile::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    emit onClick(m_position);
+    emit onClick(m_coordinate);
     QGraphicsObject::mousePressEvent(event);
 }

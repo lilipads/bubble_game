@@ -16,7 +16,7 @@ class Ball : public QGraphicsObject
 public:
     Ball(const QColor color, const Tile *tile);
     QColor color() const { return m_color; };
-    Position position() const { return m_position; }
+    Coordinate coordinate() const { return m_coordinate; }
 
     qreal scaleY() const { return transform().m22(); }
     void setScaleY(qreal scaleY);
@@ -26,7 +26,7 @@ public:
 signals:
     void scaleYChanged();
     void posYChanged();
-    void onSelect(Position position);
+    void onSelect(Coordinate coordinate);
     void onUnselect();
 
 protected:
@@ -38,7 +38,7 @@ protected:
 
 private:
     static const int kSize = 30;
-    Position m_position;
+    Coordinate m_coordinate;
     const QColor m_color;
     QPropertyAnimation *m_vertical_animation;
     QPropertyAnimation *m_position_animation;

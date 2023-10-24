@@ -42,11 +42,11 @@ void Board::initializeBallTracker()
 
 void Board::addBall(const QColor color, const int x, const int y)
 {
-    // Returns if the position is invalid.
+    // Returns if the coordinate is invalid.
     if (!(x >= 0 && x < m_gridSize && y >= 0 && y < m_gridSize)) {
         return;
     }
-    // Returns if there is already a ball at the position.
+    // Returns if there is already a ball at the coordinate.
     if (m_ball_tracker[x][y]) {
         return;
     }
@@ -57,22 +57,22 @@ void Board::addBall(const QColor color, const int x, const int y)
     m_scene->addItem(ball);
 }
 
-void Board::handleTileClick(Position pos)
+void Board::handleTileClick(Coordinate pos)
 {
     // If the location has a ball, it's an invalid click.
     if (m_ball_tracker[pos.x][pos.y]) {
         return;
     }
 
-    qDebug() << "Tile clicked at position:" << pos.x << pos.y;
+    qDebug() << "Tile clicked at coordinate:" << pos.x << pos.y;
 }
 
-void Board::handleBallSelect(Position pos)
+void Board::handleBallSelect(Coordinate pos)
 {
-    qDebug() << "Ball selected at position:" << pos.x << pos.y;
+    qDebug() << "Ball selected at coordinate:" << pos.x << pos.y;
 }
 
 void Board::handleBallUnselect()
 {
-    qDebug() << "Ball unselected at position";
+    qDebug() << "Ball unselected at coordinate";
 }

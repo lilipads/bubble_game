@@ -34,6 +34,7 @@ private:
     // TODO: get the size as an input
     static const int BALL_SIZE = 30;
     const QColor m_color;
+    bool m_is_animating = false;
 
     // Generates the gradient to create a 3D-looking ball.
     QRadialGradient generateGradient(const QColor &baseColor) const;

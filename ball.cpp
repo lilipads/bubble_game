@@ -39,8 +39,12 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 
 void Ball::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (m_is_animating) {
+        return;
+    }
     if (event->button() == Qt::LeftButton) {
         animateBounce();
+        m_is_animating = true;
     }
     QGraphicsObject::mousePressEvent(event);
 }

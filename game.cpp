@@ -1,7 +1,7 @@
 #include "game.h"
 
-Game::Game(QObject *parent)
-    : QObject(parent)
+Game::Game(QWidget *parent)
+    : QWidget(parent)
     , m_board(new Board(gridSize, this)) // Initialize Board instance
 {}
 

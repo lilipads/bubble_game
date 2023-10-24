@@ -1,14 +1,13 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <QObject>
 #include "board.h"
 
-class Game : public QObject
+class Game : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Game(QObject *parent = nullptr);
+    explicit Game(QWidget *parent = nullptr);
     QGraphicsScene *gameScene() const;
 
 private:

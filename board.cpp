@@ -9,7 +9,7 @@ Board::Board(int size, QWidget *parent)
 {
     initializeBoardUi();
     initializeGrid();
-    addBall(0, 0);
+    addBall(Qt::black, 0, 0);
 }
 
 QGraphicsScene *Board::scene() const
@@ -46,13 +46,13 @@ void Board::initializeGrid()
     }
 }
 
-void Board::addBall(int x, int y)
+void Board::addBall(const QColor color, const int x, const int y)
 {
     if (!(x >= 0 && x < m_gridSize && y >= 0 && y < m_gridSize)) {
         return;
     }
     if (!m_grid[x][y]) { // Check if there's no ball already at the position
-        m_grid[x][y] = new Ball();
+        m_grid[x][y] = new Ball(color);
         m_grid[x][y]->setRect(x * m_tileSize + (m_tileSize - m_ballSize) / 2,
                               y * m_tileSize + (m_tileSize - m_ballSize) / 2,
                               m_ballSize,

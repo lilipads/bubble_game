@@ -1,14 +1,20 @@
-#include "Ball.h"
+#include "ball.h"
 
 #include <QBrush>
 
 #include <QPen>
 
-Ball::Ball()
+Ball::Ball(const QColor color)
+    : m_color(color)
 {
-    QRadialGradient gradient = generateGradient(Qt::blue);
+    QRadialGradient gradient = generateGradient(color);
     setBrush(QBrush(gradient));
     setPen(Qt::NoPen);
+}
+
+QColor Ball::getColor()
+{
+    return m_color;
 }
 
 QRadialGradient Ball::generateGradient(const QColor &baseColor) const

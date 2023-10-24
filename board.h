@@ -14,7 +14,7 @@ public:
 
     // Adds a ball to the given location if and only if the location is valid
     // and there is no ball there already.
-    void addBall(int x, int y);
+    void addBall(const QColor color, int x, int y);
 
 private:
     QGraphicsScene *m_scene;

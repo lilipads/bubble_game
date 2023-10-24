@@ -24,6 +24,7 @@ void Board::initializeTiles()
             Tile *tile = new Tile({.x = x, .y = y});
             m_tiles[x][y] = tile;
             m_scene->addItem(tile);
+            connect(tile, &Tile::onClick, this, &Board::handleTileClick);
         }
     }
 }
@@ -41,12 +42,15 @@ void Board::initializeBallTracker()
 
 void Board::addBall(const QColor color, const int x, const int y)
 {
+    // Returns if the position is invalid.
     if (!(x >= 0 && x < m_gridSize && y >= 0 && y < m_gridSize)) {
         return;
     }
-    if (!m_ball_tracker[x][y]) { // Check if there's no ball already at the position
-        Ball *ball = new Ball(color, m_tiles[x][y]);
-        m_ball_tracker[x][y] = ball;
-        m_scene->addItem(ball);
+    // Returns if there is already a ball at the position.
+    if (m_ball_tracker[x][y]) {
+        return;
     }
+    Ball *ball = new Ball(color, m_tiles[x][y]);
+    m_ball_tracker[x][y] = ball;
+    m_scene->addItem(ball);
 }

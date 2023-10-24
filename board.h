@@ -22,7 +22,7 @@ private:
     int m_gridSize;
     // Array of pointers to Tile objects.
     Tile ***m_tiles;
-    // Array of pointers to Ball objects.
+    // Array of pointers to Ball objects. TODO: delete this. Make ball a member of Tile.
     Ball ***m_ball_tracker;
 
     // Renders an empty grid UI.
@@ -30,6 +30,13 @@ private:
 
     // Initializes all pointers to nullptr.
     void initializeBallTracker();
+
+    void handleTileClick(Tile *clickedTile)
+    {
+        // Implement what you want to do when a tile is clicked here
+        qDebug() << "Tile clicked at position:" << clickedTile->position().x
+                 << clickedTile->position().y;
+    }
 };
 
 #endif // BOARD_H

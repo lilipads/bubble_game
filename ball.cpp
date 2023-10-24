@@ -82,7 +82,6 @@ void Ball::initializeAnimation()
     m_vertical_animation->setStartValue(1.0);
     m_vertical_animation->setKeyValueAt(0.5, kSquashRatio); // Squash vertically at half duration
     m_vertical_animation->setEndValue(1.0);
-    m_vertical_animation->setLoopCount(-1); // Indefinite animation
 
     // Animation for vertical position to keep bottom y position unchanged
     m_position_animation = new QPropertyAnimation(this, "posY");
@@ -96,12 +95,17 @@ void Ball::initializeAnimation()
 
 void Ball::startAnimation()
 {
+    // Indefinite animation.
+    m_vertical_animation->setLoopCount(-1);
+    m_position_animation->setLoopCount(-1);
+
     m_vertical_animation->start();
     m_position_animation->start();
 }
 
 void Ball::stopAnimation()
 {
-    m_vertical_animation->stop();
-    m_position_animation->stop();
+    // Instead of using stop(), this brings the animation to an end.
+    m_vertical_animation->setLoopCount(1);
+    m_position_animation->setLoopCount(1);
 }

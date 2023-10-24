@@ -2,7 +2,7 @@
 
 Game::Game(QWidget *parent)
     : QWidget(parent)
-    , m_board(new Board(gridSize, this)) // Initialize Board instance
+    , m_board(new Board(kGridSize, this)) // Initialize Board instance
 {}
 
 QGraphicsScene *Game::gameScene() const

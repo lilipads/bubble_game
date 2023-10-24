@@ -17,10 +17,11 @@ public:
     void addBall(const QColor color, int x, int y);
 
 private:
+    const int kTileSize = 40;
+    const int kBallSize = 30;
+
     QGraphicsScene *m_scene;
     int m_gridSize;
-    const int m_tileSize = 40;
-    const int m_ballSize = 30;
     // array to track ball placement with pointers to Ball objects.
     Ball ***m_grid;
 

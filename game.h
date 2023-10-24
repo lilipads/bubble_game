@@ -6,12 +6,13 @@
 class Game : public QWidget
 {
     Q_OBJECT
+
 public:
     explicit Game(QWidget *parent = nullptr);
     QGraphicsScene *gameScene() const;
 
 private:
-    const int gridSize = 9;
+    const int kGridSize = 9;
 
     Board *m_board;
 };

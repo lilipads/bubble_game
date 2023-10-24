@@ -63,9 +63,10 @@ void Ball::mousePressEvent(QGraphicsSceneMouseEvent *event)
     if (event->button() == Qt::LeftButton) {
         if (m_vertical_animation && m_vertical_animation->state() == QAbstractAnimation::Stopped) {
             startAnimation();
-            emit onClick(m_position);
+            emit onSelect(m_position);
         } else {
             stopAnimation();
+            emit onUnselect();
         }
     }
     QGraphicsObject::mousePressEvent(event);

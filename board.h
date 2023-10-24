@@ -32,8 +32,8 @@ private:
     void initializeBallTracker();
 
     void handleTileClick(Position pos);
-
-    void handleBallClick(Position pos);
+    void handleBallSelect(Position pos);
+    void handleBallUnselect();
 };
 
 #endif // BOARD_H

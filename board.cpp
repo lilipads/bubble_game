@@ -52,7 +52,8 @@ void Board::addBall(const QColor color, const int x, const int y)
     }
     Ball *ball = new Ball(color, m_tiles[x][y]);
     m_ball_tracker[x][y] = ball;
-    connect(ball, &Ball::onClick, this, &Board::handleBallClick);
+    connect(ball, &Ball::onSelect, this, &Board::handleBallSelect);
+    connect(ball, &Ball::onUnselect, this, &Board::handleBallUnselect);
     m_scene->addItem(ball);
 }
 
@@ -66,7 +67,12 @@ void Board::handleTileClick(Position pos)
     qDebug() << "Tile clicked at position:" << pos.x << pos.y;
 }
 
-void Board::handleBallClick(Position pos)
+void Board::handleBallSelect(Position pos)
 {
-    qDebug() << "Ball clicked at position:" << pos.x << pos.y;
+    qDebug() << "Ball selected at position:" << pos.x << pos.y;
+}
+
+void Board::handleBallUnselect()
+{
+    qDebug() << "Ball unselected at position";
 }

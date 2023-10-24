@@ -26,7 +26,8 @@ public:
 signals:
     void scaleYChanged();
     void posYChanged();
-    void onClick(Position position);
+    void onSelect(Position position);
+    void onUnselect();
 
 protected:
     QRectF boundingRect() const override;

@@ -6,9 +6,9 @@ Board::Board(int size, QWidget *parent)
     , m_gridSize(size)
 {
     initializeTiles();
-    addBall(Qt::black, 1, 2);
-    addBall(Qt::blue, 3, 6);
-    addBall(Qt::red, 0, 0);
+    addBall(Qt::black, {.x = 1, .y = 2});
+    addBall(Qt::blue, {.x = 3, .y = 6});
+    addBall(Qt::red, {.x = 0, .y = 0});
 }
 
 QGraphicsScene *Board::scene() const
@@ -33,34 +33,41 @@ void Board::initializeTiles()
     }
 }
 
-// TODO: take in Position instead of raw x and y
-void Board::addBall(const QColor color, const int x, const int y)
+void Board::addBall(const QColor color, const Coordinate coordinate)
 {
-    // Returns if the coordinate is invalid.
-    if (!(x >= 0 && x < m_gridSize && y >= 0 && y < m_gridSize)) {
-        return;
-    }
-    Ball *ball = new Ball(color, m_tiles[x][y]->size());
-    m_tiles[x][y]->setBall(ball);
+    Tile *tile = getTile(coordinate);
+    Ball *ball = new Ball(color, tile->size());
+    tile->setBall(ball);
 }
 
-void Board::onSelectEmptyTile(Coordinate coordinate)
+void Board::moveBall(const Coordinate from, const Coordinate to)
+{
+    Tile *fromTile = getTile(from);
+    Tile *toTile = getTile(to);
+    toTile->setBall(fromTile->ball());
+    fromTile->removeBall();
+}
+
+void Board::onSelectEmptyTile(Coordinate move_to)
 {
     if (m_move_from.has_value()) {
-        // stop animating
-        // try to move
+        getTile(*m_move_from)->ball()->stopAnimation();
+        // Tries to move the ball.
+        // TODO: checks validity of the move
+        moveBall(*m_move_from, move_to);
+        m_move_from = std::nullopt;
     }
-    qDebug() << "Tile clicked at coordinate:" << coordinate.toString();
+    qDebug() << "Tile clicked at coordinate:" << move_to.toString();
 }
 
-void Board::onSelectBall(Coordinate coordinate)
+void Board::onSelectBall(Coordinate move_from)
 {
     // If another ball is being selected, stop animating that ball.
     if (m_move_from.has_value()) {
         getTile(*m_move_from)->ball()->stopAnimation();
     }
-    m_move_from = coordinate;
-    qDebug() << "Ball selected at coordinate:" << coordinate.toString();
+    m_move_from = move_from;
+    qDebug() << "Ball selected at coordinate:" << move_from.toString();
 }
 
 void Board::onUnselectBall()
@@ -71,5 +78,9 @@ void Board::onUnselectBall()
 
 Tile *Board::getTile(Coordinate coordinate)
 {
+    if (coordinate.x < 0 || coordinate.x >= m_gridSize || coordinate.y < 0
+        || coordinate.y >= m_gridSize) {
+        throw std::out_of_range("Value out of allowed range");
+    }
     return m_tiles[coordinate.x][coordinate.y];
 }

@@ -13,11 +13,6 @@ Board::Board(int size, QWidget *parent)
     addBall(BallColor::Green, {.x = 0, .y = 0});
 }
 
-QGraphicsScene *Board::scene() const
-{
-    return m_scene;
-}
-
 void Board::initializeTiles()
 {
     m_tiles = new Tile **[m_gridSize];

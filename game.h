@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "board.h"
+#include "next_batch_panel.h"
 
 class Game : public QWidget
 {
@@ -9,7 +10,8 @@ class Game : public QWidget
 
 public:
     explicit Game(QWidget *parent = nullptr);
-    QGraphicsScene *gameScene() const;
+    QGraphicsScene *boardScene() const;
+    QGraphicsScene *panelScene() const;
 
     // Updates m_score and eliminates line if any line is formed at the `coordinate`.
     void scoreAndUpdateBoard(const Coordinate coordinate);
@@ -19,6 +21,7 @@ private:
     const int kGridSize = 9;
     const int kNewBalls = 3;
     Board *m_board;
+    NextBatchPanel *m_panel;
     int m_score;
     std::vector<BallColor> m_next_batch_colors;
 

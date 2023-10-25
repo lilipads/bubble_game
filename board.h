@@ -12,7 +12,7 @@ class Board : public QWidget
     Q_OBJECT
 public:
     explicit Board(int size, QWidget *parent = nullptr);
-    QGraphicsScene *scene() const;
+    QGraphicsScene *scene() const { return m_scene; }
 
     // Adds a ball to the given `coordinate` if and only if there is no ball there already. Throws an error if `coordinate` is out of range.
     void addBall(const BallColor color, const Coordinate coordinate);

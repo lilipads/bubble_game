@@ -4,14 +4,20 @@
 
 Game::Game(QWidget *parent)
     : QWidget(parent)
-    , m_board(new Board(kGridSize, this)) // Initialize Board instance
+    , m_board(new Board(kGridSize, this))
+    , m_panel(new NextBatchPanel(kNewBalls, this))
 {
     connect(m_board, &Board::userTurnCompleted, this, &Game::scoreAndUpdateBoard);
 }
 
-QGraphicsScene *Game::gameScene() const
+QGraphicsScene *Game::boardScene() const
 {
     return m_board->scene();
+}
+
+QGraphicsScene *Game::panelScene() const
+{
+    return m_panel->scene();
 }
 
 void Game::scoreAndUpdateBoard(const Coordinate coordinate)

@@ -7,7 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
     , m_game(new Game(this))
 {
     ui->setupUi(this);
-    ui->graphicsView->setScene(m_game->gameScene());
+    ui->boardGraphicsView->setScene(m_game->boardScene());
+    ui->panelGraphicsView->setScene(m_game->panelScene());
 }
 
 MainWindow::~MainWindow()

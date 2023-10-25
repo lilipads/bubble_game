@@ -7,8 +7,6 @@ MainWindow::MainWindow(QWidget *parent)
     , m_game(new Game(this))
 {
     initializeUi();
-    m_record_score = getRecordScore();
-    ui->recordScoreBox->display(m_record_score);
 }
 
 MainWindow::~MainWindow()
@@ -23,6 +21,8 @@ void MainWindow::initializeUi()
     ui->panelGraphicsView->setScene(m_game->panelScene());
     connect(ui->newGameButton, &QPushButton::clicked, this, &MainWindow::onNewGameButtonClicked);
     connect(m_game, &Game::scoreUpdated, this, &MainWindow::onScoreUpdated);
+    m_record_score = getRecordScore();
+    ui->recordScoreBox->display(m_record_score);
 }
 
 void MainWindow::onNewGameButtonClicked()

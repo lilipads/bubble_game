@@ -35,8 +35,8 @@ QRadialGradient Ball::generateGradient(const QColor &baseColor) const
     const QColor intermediateShade(qMin(r + 50, 255), qMin(g + 50, 255), qMin(b + 50, 255));
     const QColor darkShade(qMax(r - 155, 0), qMax(g - 155, 0), qMax(b - 155, 0));
 
-    QRadialGradient gradient(/*cx=*/pos().x() + kSize / 2,
-                             /*cy=*/pos().y() + kSize / 2,
+    QRadialGradient gradient(/*cx=*/kSize / 2,
+                             /*cy=*/kSize / 2,
                              /*radius=*/kSize / 2,
                              /*fx=*/kSize / 4,
                              /*fy=*/kSize / 4);

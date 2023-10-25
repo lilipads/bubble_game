@@ -37,5 +37,5 @@ void Tile::setBall(Ball* ball)
     }
     m_ball = ball;
     ball->setParentItem(this);
-    ball->setPos(0, 0);
+    ball->setPos(0.0, 0.0);
 }

@@ -19,6 +19,8 @@ struct Coordinate
         y += other.y;
         return *this;
     }
+
+    Coordinate operator-() const { return Coordinate{-x, -y}; }
 };
 
 inline uint qHash(const Coordinate &key, uint seed = 0)

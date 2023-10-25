@@ -34,22 +34,36 @@ int Game::getDeltaScoreAndEliminateLines(const Coordinate coordinate)
 {
     int delta_score = 0;
     // Horizontal.
-    {
-        const auto left = getConsecutiveCoordWithSameColor(coordinate, {.x = 1, .y = 0});
-        const auto right = getConsecutiveCoordWithSameColor(coordinate, {.x = -1, .y = 0});
-        const int score = scoreLine(left, right, kNonDiagLineScore);
-        if (score > 0) {
-            removeSegments(left, right);
-        }
-        delta_score += score;
-    }
+    scoreLineAndRemoveSegments(coordinate, {.x = 1, .y = 0}, kNonDiagLineScore, delta_score);
+
     // Vertical.
+    scoreLineAndRemoveSegments(coordinate, {.x = 0, .y = 1}, kNonDiagLineScore, delta_score);
+
     // Forward slash.
+    scoreLineAndRemoveSegments(coordinate, {.x = 1, .y = 1}, kDiagLineScore, delta_score);
+
     // Backward slash.
+    scoreLineAndRemoveSegments(coordinate, {.x = 1, .y = -1}, kNonDiagLineScore, delta_score);
+
     if (delta_score > 0) {
         // Removes the origin.
+        m_board->removeBall(coordinate);
     }
     return delta_score;
+}
+
+void Game::scoreLineAndRemoveSegments(const Coordinate origin,
+                                      const Coordinate direction,
+                                      const int per_ball_score,
+                                      int &delta_score)
+{
+    const auto segment1 = getConsecutiveCoordWithSameColor(origin, direction);
+    const auto segment2 = getConsecutiveCoordWithSameColor(origin, -direction);
+    const int score = scoreLine(segment1, segment2, per_ball_score);
+    if (score > 0) {
+        removeSegments(segment1, segment2);
+    }
+    delta_score += score;
 }
 
 void Game::addNewBalls()

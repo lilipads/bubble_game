@@ -37,6 +37,12 @@ private:
     void addNewBalls();
     int getDeltaScoreAndEliminateLines(const Coordinate coordinate);
 
+    // `direction` is a unit vector such as (0, 1). Scores a line containing the `origin` in `direction` and its opposite direction, (e.g. (0, 1) means the vertical direction). If the line has a score, update `delta_score` and removes the line except `origin` from the board.
+    void scoreLineAndRemoveSegments(const Coordinate origin,
+                                    const Coordinate direction,
+                                    const int per_ball_score,
+                                    int &delta_score);
+
     //  Returns coordinates of consecutive tiles with the same color ball as the ball at `origin` in a given `direction` if they exist. This does not include the Tile at the `origin`.
     std::vector<Coordinate> getConsecutiveCoordWithSameColor(const Coordinate origin,
                                                              const Coordinate direction);

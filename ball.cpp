@@ -11,19 +11,6 @@ Ball::Ball(const QColor color, const int tileSize)
     initializeAnimation();
 }
 
-void Ball::setScaleY(qreal scaleY)
-{
-    QTransform t = transform();
-    t.setMatrix(t.m11(), t.m12(), t.m13(), t.m21(), scaleY, t.m23(), t.m31(), t.m32(), t.m33());
-    setTransform(t);
-
-    // Keeps the bottom position fixed.
-    qreal posYOffset = kSize * (1.0 - scaleY);
-    setPos(pos().x(), posYOffset);
-
-    emit scaleYChanged();
-}
-
 QRectF Ball::boundingRect() const
 {
     return QRectF(
@@ -58,6 +45,19 @@ QRadialGradient Ball::generateGradient(const QColor &baseColor) const
     gradient.setColorAt(0.7, darkShade);
 
     return gradient;
+}
+
+void Ball::setScaleY(qreal scaleY)
+{
+    QTransform t = transform();
+    t.setMatrix(t.m11(), t.m12(), t.m13(), t.m21(), scaleY, t.m23(), t.m31(), t.m32(), t.m33());
+    setTransform(t);
+
+    // Keeps the bottom position fixed.
+    qreal posYOffset = kSize * (1.0 - scaleY);
+    setPos(pos().x(), posYOffset);
+
+    emit scaleYChanged();
 }
 
 void Ball::mousePressEvent(QGraphicsSceneMouseEvent *event)

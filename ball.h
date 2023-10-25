@@ -37,9 +37,7 @@ protected:
 
 private:
     static const int kSize = 30;
-    // Absolute pixel position of the rectangle's upper left corner.
-    const qreal m_topleft_x_pos;
-    const qreal m_topleft_y_pos;
+    const qreal m_margin_to_tile;
 
     const QColor m_color;
     QPropertyAnimation *m_vertical_animation;

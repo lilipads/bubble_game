@@ -5,9 +5,7 @@
 
 Ball::Ball(const QColor color, const int tileSize)
     : m_color(color)
-    , m_topleft_x_pos((tileSize - kSize) / 2)
-    , m_topleft_y_pos((tileSize - kSize) / 2)
-
+    , m_margin_to_tile((tileSize - kSize) / 2)
 {
     setAcceptHoverEvents(true);
     initializeAnimation();
@@ -29,7 +27,8 @@ void Ball::setPosY(qreal posY)
 
 QRectF Ball::boundingRect() const
 {
-    return QRectF(0, 0, kSize, kSize);
+    return QRectF(
+        /*topLeft=*/QPointF(m_margin_to_tile, m_margin_to_tile), QSizeF(kSize, kSize));
 }
 
 void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -95,9 +94,9 @@ void Ball::initializeAnimation()
     // Animation for shift down vertical position to keep bottom of the ball still.
     m_position_animation = new QPropertyAnimation(this, "posY");
     m_position_animation->setDuration(kDuration);
-    m_position_animation->setStartValue(m_topleft_y_pos);
-    m_position_animation->setKeyValueAt(0.5, m_topleft_y_pos + kSize * (1 - kSquashRatio));
-    m_position_animation->setEndValue(m_topleft_y_pos);
+    m_position_animation->setStartValue(m_margin_to_tile);
+    m_position_animation->setKeyValueAt(0.5, m_margin_to_tile + kSize * (1 - kSquashRatio));
+    m_position_animation->setEndValue(m_margin_to_tile);
 }
 
 void Ball::startAnimation()

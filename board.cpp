@@ -23,7 +23,7 @@ void Board::initializeTiles()
         m_tiles[x] = new Tile *[m_gridSize];
         for (int y = 0; y < m_gridSize; ++y) {
             Tile *tile = new Tile({.x = x, .y = y});
-            tile->setPos(x * 40.0, y * 40.0);
+            tile->setPos(x * tile->size(), y * tile->size());
             m_tiles[x][y] = tile;
             m_scene->addItem(tile);
             connect(tile, &Tile::onClick, this, &Board::handleTileClick);
@@ -37,7 +37,7 @@ void Board::addBall(const QColor color, const int x, const int y)
     if (!(x >= 0 && x < m_gridSize && y >= 0 && y < m_gridSize)) {
         return;
     }
-    Ball *ball = new Ball(color, 40); // TODO: don't hard code here.
+    Ball *ball = new Ball(color, m_tiles[x][y]->size());
     m_tiles[x][y]->setBall(ball);
     connect(ball, &Ball::onSelect, this, &Board::handleBallSelect);
     connect(ball, &Ball::onUnselect, this, &Board::handleBallUnselect);

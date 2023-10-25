@@ -10,7 +10,7 @@ Tile::Tile(Coordinate p)
 
 QRectF Tile::boundingRect() const
 {
-    return QRectF(0, 0, kSize, kSize);
+    return QRectF(/*topLeft=*/QPointF(0.0, 0.0), QSizeF(kSize, kSize));
 }
 
 void Tile::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)

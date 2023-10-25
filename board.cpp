@@ -61,6 +61,8 @@ void Board::onSelectEmptyTile(const Coordinate moveTo)
             moveBall(*m_move_from, moveTo);
             m_move_from = std::nullopt;
             emit userTurnCompleted(moveTo);
+        } else {
+            m_move_from = std::nullopt;
         }
     }
 }

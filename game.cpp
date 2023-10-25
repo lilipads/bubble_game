@@ -23,7 +23,7 @@ QGraphicsScene *Game::panelScene() const
 
 void Game::scoreAndUpdateBoard(const Coordinate coordinate)
 {
-    const int delta_score = getDeltaScoreAndEliminateLines(coordinate);
+    const int delta_score = getDeltaScoreAndRemoveLines(coordinate);
     m_score += delta_score;
     if (delta_score == 0) {
         addNewBalls();
@@ -31,7 +31,7 @@ void Game::scoreAndUpdateBoard(const Coordinate coordinate)
     emit scoreUpdated(m_score);
 }
 
-int Game::getDeltaScoreAndEliminateLines(const Coordinate coordinate)
+int Game::getDeltaScoreAndRemoveLines(const Coordinate coordinate)
 {
     int delta_score = 0;
     // Horizontal.
@@ -79,7 +79,7 @@ void Game::addNewBalls()
             // A newly placed ball can form a qualifying line (e.g. if there are already 4
             // consecutive balls, and a new ball is added to the end of the line).
             // Also adds that to the score.
-            m_score += getDeltaScoreAndEliminateLines(*coordinate_or);
+            m_score += getDeltaScoreAndRemoveLines(*coordinate_or);
         }
     }
     setAndDisplayNextBatchColors();

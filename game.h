@@ -41,7 +41,7 @@ private:
     void addNewBalls();
 
     // Returns incremental score for lines formed in any direction containing `coordinate`. Removes such lines if they reach the minimal length to score.
-    int getDeltaScoreAndEliminateLines(const Coordinate coordinate);
+    int getDeltaScoreAndRemoveLines(const Coordinate coordinate);
 
     // Scores a line containing the `origin` in `direction` and its opposite direction, (e.g. `direction` = (0, 1) means the vertical direction, both up and down). If the line has a score, update `delta_score` and removes the line except `origin` from the board.
     void scoreLineAndRemoveSegments(const Coordinate origin,

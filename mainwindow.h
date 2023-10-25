@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSettings>
+
 #include "game.h"
 
 QT_BEGIN_NAMESPACE
@@ -21,6 +23,10 @@ private slots:
     void onNewGameButtonClicked();
 
 private:
+    QSettings m_settings = QSettings(/*organization=*/"game", /*application=*/"bubble");
+    const QString m_record_score_key = "record_score";
+    int m_record_score = 0;
+
     Ui::MainWindow *ui;
     Game *m_game;
 
@@ -28,5 +34,11 @@ private:
 
     // Updates the score box display.
     void onScoreUpdated(int score);
+
+    // Updates the record if `score` is higher than the current record.
+    void maybeUpdateRecordScore(int score);
+
+    // Returns the highest score in record. If no record, return 0.
+    int getRecordScore() const;
 };
 #endif // MAINWINDOW_H

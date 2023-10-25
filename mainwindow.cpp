@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
     , m_game(new Game(this))
 {
     initializeUi();
+    m_record_score = getRecordScore();
+    ui->recordScoreBox->display(m_record_score);
 }
 
 MainWindow::~MainWindow()
@@ -35,5 +37,20 @@ void MainWindow::onNewGameButtonClicked()
 void MainWindow::onScoreUpdated(int score)
 {
     ui->scoreBox->display(score);
-    // TODO: save the current score
+    maybeUpdateRecordScore(score);
+    ui->recordScoreBox->display(m_record_score);
+}
+
+void MainWindow::maybeUpdateRecordScore(int score)
+{
+    if (score > m_record_score) {
+        m_record_score = score;
+        m_settings.setValue(m_record_score_key, score);
+        ui->recordScoreBox->display(score);
+    }
+}
+
+int MainWindow::getRecordScore() const
+{
+    return m_settings.value(m_record_score_key, 0).toInt();
 }

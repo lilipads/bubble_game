@@ -93,7 +93,7 @@ Tile *Board::getTile(const Coordinate coordinate)
     return m_tiles[coordinate.x][coordinate.y];
 }
 
-std::optional<Coordinate> Board::getEmptyGrid()
+std::optional<Coordinate> Board::getRandomEmptyGrid()
 {
     if (m_empty_tiles.isEmpty()) {
         return std::nullopt;
@@ -102,4 +102,18 @@ std::optional<Coordinate> Board::getEmptyGrid()
     const QList<Coordinate> list = m_empty_tiles.values();
     const int randomIndex = QRandomGenerator::global()->bounded(list.size());
     return list.at(randomIndex);
+}
+
+std::optional<BallColor> Board::getBallColor(Coordinate coordinate)
+{
+    const Tile *tile;
+    try {
+        tile = getTile(coordinate);
+    } catch (const std::out_of_range &e) {
+        return std::nullopt;
+    }
+    if (!tile->hasBall()) {
+        return std::nullopt;
+    }
+    return tile->ball()->color();
 }

@@ -17,6 +17,7 @@ public:
     // Removes the ball from the tile. If no ball exists, this is a no-op.
     void removeBall();
     Ball* ball() const { return m_ball; }
+    bool hasBall() const { return m_ball != nullptr; }
 
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;

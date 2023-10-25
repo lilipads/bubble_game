@@ -75,7 +75,7 @@ void Ball::initializeAnimation()
     m_animation = new QPropertyAnimation(this, "scaleY");
     m_animation->setDuration(kDuration);
     m_animation->setStartValue(1.0);
-    // Squash vertically at half duration
+    // Squashes the ball vertically at half duration
     m_animation->setKeyValueAt(0.5, kSquashRatio);
     m_animation->setEndValue(1.0);
 }

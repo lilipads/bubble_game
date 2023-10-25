@@ -12,6 +12,13 @@ struct Coordinate
     QString toString() const { return QString("(%1, %2)").arg(x).arg(y); }
 
     bool operator==(const Coordinate &other) const { return x == other.x && y == other.y; }
+
+    Coordinate &operator+=(const Coordinate &other)
+    {
+        x += other.x;
+        y += other.y;
+        return *this;
+    }
 };
 
 inline uint qHash(const Coordinate &key, uint seed = 0)

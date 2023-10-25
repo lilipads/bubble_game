@@ -20,6 +20,11 @@ public:
 private:
     const int kGridSize = 9;
     const int kNewBalls = 3;
+    // Needs at least 5 balls in a row to score a line.
+    const int kMinLine = 5;
+    const int kNonDiagLineScore = 2;
+    const int kDiagLineScore = 3;
+
     Board *m_board;
     NextBatchPanel *m_panel;
     int m_score;
@@ -32,9 +37,18 @@ private:
     void addNewBalls();
     int getDeltaScoreAndEliminateLines(const Coordinate coordinate);
 
-    //  Returns pointers to consecutive consecutive tiles with the same color ball as the ball at `origin` if exists in a given `direction`. This does not include the Tile at the `origin`.
-    std::vector<Tile *> getConsecutiveTilesWithSameColorBalls(const Coordinate origin,
-                                                              const Coordinate direction);
+    //  Returns coordinates of consecutive tiles with the same color ball as the ball at `origin` in a given `direction` if they exist. This does not include the Tile at the `origin`.
+    std::vector<Coordinate> getConsecutiveCoordWithSameColor(const Coordinate origin,
+                                                             const Coordinate direction);
+
+    // Returns the score of the line. Can be 0 if the line doesn't qualify. `segment1` and `segment2`, together with the origin (the spacing in between the two segments), joins togehter to form a consecutive line.
+    int scoreLine(const std::vector<Coordinate> &segment1,
+                  const std::vector<Coordinate> &segment2,
+                  const int per_ball_score);
+
+    // Removes balls from `segment1` and `segment2`.
+    void removeSegments(const std::vector<Coordinate> &segment1,
+                        const std::vector<Coordinate> &segment2);
 };
 
 #endif // GAME_H

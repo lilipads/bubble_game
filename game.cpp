@@ -32,11 +32,20 @@ void Game::scoreAndUpdateBoard(const Coordinate coordinate)
 
 int Game::getDeltaScoreAndEliminateLines(const Coordinate coordinate)
 {
-    const int delta_score = 0;
+    int delta_score = 0;
     // Horizontal.
+    {
+        const auto left = getConsecutiveCoordWithSameColor(coordinate, {.x = 1, .y = 0});
+        const auto right = getConsecutiveCoordWithSameColor(coordinate, {.x = -1, .y = 0});
+        const int score = scoreLine(left, right, kNonDiagLineScore);
+        if (score > 0) {
+            removeSegments(left, right);
+        }
+        delta_score += score;
+    }
     // Vertical.
     // Forward slash.
-    // Backward slach.
+    // Backward slash.
     if (delta_score > 0) {
         // Removes the origin.
     }
@@ -49,7 +58,7 @@ void Game::addNewBalls()
         setAndDisplayNextBatchColors();
     }
     for (int i = 0; i < m_next_batch_colors.size(); ++i) {
-        std::optional<Coordinate> coordinate_or = m_board->getEmptyGrid();
+        std::optional<Coordinate> coordinate_or = m_board->getRandomEmptyGrid();
         if (coordinate_or.has_value()) {
             m_board->addBall(m_next_batch_colors[i], *coordinate_or);
         }
@@ -76,4 +85,46 @@ void Game::setAndDisplayNextBatchColors()
 {
     m_next_batch_colors = getNextBatchColors();
     m_panel->updatePanel(m_next_batch_colors);
+}
+
+std::vector<Coordinate> Game::getConsecutiveCoordWithSameColor(const Coordinate origin,
+                                                               const Coordinate direction)
+{
+    std::vector<Coordinate> tiles;
+    const std::optional<BallColor> origin_color_or = m_board->getBallColor(origin);
+    if (!origin_color_or.has_value()) {
+        return tiles;
+    }
+    const BallColor origin_color = *origin_color_or;
+
+    Coordinate curr = origin;
+    while (true) {
+        curr += direction;
+        const std::optional<BallColor> color_or = m_board->getBallColor(curr);
+        if (!color_or.has_value() || *color_or != origin_color) {
+            break;
+        }
+        tiles.push_back(curr);
+    }
+
+    return tiles;
+}
+
+int Game::scoreLine(const std::vector<Coordinate> &segment1,
+                    const std::vector<Coordinate> &segment2,
+                    const int per_ball_score)
+{
+    const int line_length = segment1.size() + segment2.size() + 1;
+    return line_length >= kMinLine ? line_length * per_ball_score : 0;
+}
+
+void Game::removeSegments(const std::vector<Coordinate> &segment1,
+                          const std::vector<Coordinate> &segment2)
+{
+    for (const Coordinate coordinate : segment1) {
+        m_board->removeBall(coordinate);
+    }
+    for (const Coordinate coordinate : segment2) {
+        m_board->removeBall(coordinate);
+    }
 }

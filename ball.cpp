@@ -3,11 +3,10 @@
 #include <QPainter>
 #include <QPen>
 
-Ball::Ball(const QColor color, const Tile *tile)
+Ball::Ball(const QColor color, const int tileSize)
     : m_color(color)
-    , m_coordinate(tile->coordinate())
-    , m_topleft_x_pos(tile->coordinate().x * tile->size() + (tile->size() - kSize) / 2)
-    , m_topleft_y_pos(tile->coordinate().y * tile->size() + (tile->size() - kSize) / 2)
+    , m_topleft_x_pos((tileSize - kSize) / 2)
+    , m_topleft_y_pos((tileSize - kSize) / 2)
 
 {
     setAcceptHoverEvents(true);
@@ -30,7 +29,7 @@ void Ball::setPosY(qreal posY)
 
 QRectF Ball::boundingRect() const
 {
-    return QRectF(m_topleft_x_pos, m_topleft_y_pos, kSize, kSize);
+    return QRectF(0, 0, kSize, kSize);
 }
 
 void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -39,6 +38,7 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->setBrush(QBrush(gradient));
     painter->setPen(Qt::NoPen);
     painter->drawEllipse(boundingRect());
+    qDebug() << "Drawing ball at:" << pos();
 }
 
 QRadialGradient Ball::generateGradient(const QColor &baseColor) const
@@ -71,7 +71,7 @@ void Ball::mousePressEvent(QGraphicsSceneMouseEvent *event)
         }
         if (m_vertical_animation->state() == QAbstractAnimation::Stopped) {
             startAnimation();
-            emit onSelect(m_coordinate);
+            //            emit onSelect(m_coordinate);
         } else {
             stopAnimation();
             emit onUnselect();

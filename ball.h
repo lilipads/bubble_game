@@ -5,7 +5,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QLinearGradient>
 #include <QPropertyAnimation>
-#include "tile.h"
+#include "coordinate.h"
 
 class Ball : public QGraphicsObject
 {
@@ -14,9 +14,8 @@ class Ball : public QGraphicsObject
     Q_PROPERTY(qreal posY READ posY WRITE setPosY NOTIFY posYChanged)
 
 public:
-    Ball(const QColor color, const Tile *tile);
+    Ball(const QColor color, const int tileSize);
     QColor color() const { return m_color; };
-    Coordinate coordinate() const { return m_coordinate; }
 
     qreal scaleY() const { return transform().m22(); }
     void setScaleY(qreal scaleY);
@@ -38,7 +37,6 @@ protected:
 
 private:
     static const int kSize = 30;
-    Coordinate m_coordinate;
     // Absolute pixel position of the rectangle's upper left corner.
     const qreal m_topleft_x_pos;
     const qreal m_topleft_y_pos;

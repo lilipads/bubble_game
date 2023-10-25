@@ -2,6 +2,7 @@
 #define TILE_H
 
 #include <QGraphicsRectItem>
+#include "ball.h"
 #include "coordinate.h"
 
 class Tile : public QGraphicsObject
@@ -12,6 +13,8 @@ public:
     Tile(Coordinate c);
     int size() const { return kSize; }
     Coordinate coordinate() const { return m_coordinate; }
+    void setBall(Ball* ball);
+    Ball* ball() const { return m_ball; }
 
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
@@ -28,6 +31,7 @@ private:
     const QColor kBorderColor = Qt::darkGray;
 
     Coordinate m_coordinate;
+    Ball* m_ball = nullptr;
 };
 
 #endif // TILE_H

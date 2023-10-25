@@ -6,7 +6,6 @@ Board::Board(int size, QWidget *parent)
     , m_gridSize(size)
 {
     initializeTiles();
-    initializeBallTracker();
     addBall(Qt::black, 1, 2);
     addBall(Qt::blue, 3, 6);
     addBall(Qt::red, 0, 0);
@@ -24,20 +23,10 @@ void Board::initializeTiles()
         m_tiles[x] = new Tile *[m_gridSize];
         for (int y = 0; y < m_gridSize; ++y) {
             Tile *tile = new Tile({.x = x, .y = y});
+            tile->setPos(x * 40.0, y * 40.0);
             m_tiles[x][y] = tile;
             m_scene->addItem(tile);
             connect(tile, &Tile::onClick, this, &Board::handleTileClick);
-        }
-    }
-}
-
-void Board::initializeBallTracker()
-{
-    m_ball_tracker = new Ball **[m_gridSize];
-    for (int x = 0; x < m_gridSize; ++x) {
-        m_ball_tracker[x] = new Ball *[m_gridSize];
-        for (int y = 0; y < m_gridSize; ++y) {
-            m_ball_tracker[x][y] = nullptr;
         }
     }
 }
@@ -48,24 +37,14 @@ void Board::addBall(const QColor color, const int x, const int y)
     if (!(x >= 0 && x < m_gridSize && y >= 0 && y < m_gridSize)) {
         return;
     }
-    // Returns if there is already a ball at the coordinate.
-    if (m_ball_tracker[x][y]) {
-        return;
-    }
-    Ball *ball = new Ball(color, m_tiles[x][y]);
-    m_ball_tracker[x][y] = ball;
+    Ball *ball = new Ball(color, 40); // TODO: don't hard code here.
+    m_tiles[x][y]->setBall(ball);
     connect(ball, &Ball::onSelect, this, &Board::handleBallSelect);
     connect(ball, &Ball::onUnselect, this, &Board::handleBallUnselect);
-    m_scene->addItem(ball);
 }
 
 void Board::handleTileClick(Coordinate pos)
 {
-    // If the location has a ball, it's an invalid click.
-    if (m_ball_tracker[pos.x][pos.y]) {
-        return;
-    }
-
     qDebug() << "Tile clicked at coordinate:" << pos.x << pos.y;
 }
 

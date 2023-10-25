@@ -22,14 +22,9 @@ private:
     int m_gridSize;
     // Array of pointers to Tile objects.
     Tile ***m_tiles;
-    // Array of pointers to Ball objects.
-    Ball ***m_ball_tracker;
 
     // Renders an empty grid UI.
     void initializeTiles();
-
-    // Initializes all pointers to nullptr.
-    void initializeBallTracker();
 
     void handleTileClick(Coordinate coordinate);
     void handleBallSelect(Coordinate coordinate);

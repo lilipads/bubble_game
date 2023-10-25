@@ -45,11 +45,19 @@ private:
     void initializeTiles();
     // Moves the ball to the selected empty tile if there is a ball to move.
     void onSelectEmptyTile(const Coordinate move_to);
+
+    // Updates `m_move_from` to prepare to move the selected ball. If another ball is being selected, stop animating that ball. Throws an error if `move_from` is out of range.
     void onSelectBall(const Coordinate move_from);
+
+    // Updates `m_move_from` to erase the previous selected coordinate.
     void onUnselectBall();
+
     // Returns a pointer to the tile at coordinate if the coordinate is valid.
     // Throws an std::out_of_range error otherwise.
     Tile *getTile(const Coordinate coordinate);
+
+    // Returns true if there is a path between `move_from` and `move_to`.
+    // A path means the ball can move up / down / left / right across empty tiles from the source to the destination.
     bool isValidMove(const Coordinate move_from, const Coordinate move_to);
 };
 

@@ -80,7 +80,9 @@ void Board::onUnselectBall()
 
 bool Board::isValidMove(const Coordinate move_from, const Coordinate move_to)
 {
+    // Uses BFS to check the existence of a path.
     // TODO
+    const std::vector<Coordinate> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
     return true;
 }
 

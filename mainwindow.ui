@@ -65,15 +65,79 @@
       <height>23</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QLCDNumber" name="scoreRecordBox">
-    <property name="geometry">
-     <rect>
-      <x>710</x>
-      <y>30</y>
-      <width>64</width>
-      <height>23</height>
-     </rect>
+    <property name="palette">
+     <palette>
+      <active>
+       <colorrole role="Mid">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>5</red>
+          <green>4</green>
+          <blue>5</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="BrightText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>1</red>
+          <green>1</green>
+          <blue>1</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </active>
+      <inactive>
+       <colorrole role="Mid">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>5</red>
+          <green>4</green>
+          <blue>5</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="BrightText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>1</red>
+          <green>1</green>
+          <blue>1</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </inactive>
+      <disabled>
+       <colorrole role="Mid">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>5</red>
+          <green>4</green>
+          <blue>5</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="BrightText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>1</red>
+          <green>1</green>
+          <blue>1</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </disabled>
+     </palette>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <bold>false</bold>
+      <underline>false</underline>
+     </font>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Flat</enum>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -113,6 +177,90 @@
     </property>
     <property name="text">
      <string>新游戏</string>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="recordScoreBox">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>30</y>
+      <width>64</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="palette">
+     <palette>
+      <active>
+       <colorrole role="Mid">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>5</red>
+          <green>4</green>
+          <blue>5</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="BrightText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>1</red>
+          <green>1</green>
+          <blue>1</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </active>
+      <inactive>
+       <colorrole role="Mid">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>5</red>
+          <green>4</green>
+          <blue>5</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="BrightText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>1</red>
+          <green>1</green>
+          <blue>1</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </inactive>
+      <disabled>
+       <colorrole role="Mid">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>5</red>
+          <green>4</green>
+          <blue>5</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="BrightText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>1</red>
+          <green>1</green>
+          <blue>1</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </disabled>
+     </palette>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <bold>false</bold>
+      <underline>false</underline>
+     </font>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Flat</enum>
     </property>
    </widget>
   </widget>

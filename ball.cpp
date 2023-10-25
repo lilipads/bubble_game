@@ -3,9 +3,9 @@
 #include <QPainter>
 #include <QPen>
 
-Ball::Ball(const BallColor color, const int tileSize)
+Ball::Ball(const BallColor color, const int tile_size)
     : m_color(color)
-    , m_margin_to_tile((tileSize - kSize) / 2)
+    , m_margin_to_tile((tile_size - kSize) / 2)
 {
     setAcceptHoverEvents(true);
     initializeAnimation();
@@ -25,40 +25,40 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->drawEllipse(boundingRect());
 }
 
-QRadialGradient Ball::generateGradient(const BallColor &baseColor) const
+QRadialGradient Ball::generateGradient(const BallColor &base_color) const
 {
-    const QColor qBaseColor = toQColor(baseColor);
-    const int r = qBaseColor.red();
-    const int g = qBaseColor.green();
-    const int b = qBaseColor.blue();
+    const QColor q_base_color = toQColor(base_color);
+    const int r = q_base_color.red();
+    const int g = q_base_color.green();
+    const int b = q_base_color.blue();
 
-    const QColor brightShade(qMin(r + 240, 255), qMin(g + 240, 255), qMin(b + 240, 255));
-    const QColor intermediateShade(qMin(r + 50, 255), qMin(g + 50, 255), qMin(b + 50, 255));
-    const QColor darkShade(qMax(r - 155, 0), qMax(g - 155, 0), qMax(b - 155, 0));
+    const QColor bright_shade(qMin(r + 240, 255), qMin(g + 240, 255), qMin(b + 240, 255));
+    const QColor intermediate_shade(qMin(r + 50, 255), qMin(g + 50, 255), qMin(b + 50, 255));
+    const QColor dark_shade(qMax(r - 155, 0), qMax(g - 155, 0), qMax(b - 155, 0));
 
     QRadialGradient gradient(/*cx=*/kSize / 2,
                              /*cy=*/kSize / 2,
                              /*radius=*/kSize / 2,
                              /*fx=*/kSize / 4,
                              /*fy=*/kSize / 4);
-    gradient.setColorAt(0.0, brightShade);
-    gradient.setColorAt(0.5, intermediateShade);
-    gradient.setColorAt(0.9, darkShade);
+    gradient.setColorAt(0.0, bright_shade);
+    gradient.setColorAt(0.5, intermediate_shade);
+    gradient.setColorAt(0.9, dark_shade);
 
     return gradient;
 }
 
-void Ball::setScaleY(qreal scaleY)
+void Ball::setScaleY(qreal scale_y)
 {
     QTransform t = transform();
 
     // Squashes vertically.
-    t.setMatrix(t.m11(), t.m12(), t.m13(), t.m21(), scaleY, t.m23(), t.m31(), t.m32(), t.m33());
+    t.setMatrix(t.m11(), t.m12(), t.m13(), t.m21(), scale_y, t.m23(), t.m31(), t.m32(), t.m33());
     setTransform(t);
 
     // Shifts y to keeps the bottom position fixed.
-    qreal posYOffset = kSize * (1.0 - scaleY);
-    setPos(pos().x(), posYOffset);
+    qreal pos_y = kSize * (1.0 - scale_y);
+    setPos(pos().x(), pos_y);
 
     emit scaleYChanged();
 }

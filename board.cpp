@@ -52,28 +52,28 @@ void Board::moveBall(const Coordinate from, const Coordinate to)
     removeBall(from);
 }
 
-void Board::onSelectEmptyTile(const Coordinate moveTo)
+void Board::onSelectEmptyTile(const Coordinate move_to)
 {
     if (m_move_from.has_value()) {
         getTile(*m_move_from)->ball()->stopAnimation();
         // Tries to move the ball.
-        if (isValidMove(*m_move_from, moveTo)) {
-            moveBall(*m_move_from, moveTo);
+        if (isValidMove(*m_move_from, move_to)) {
+            moveBall(*m_move_from, move_to);
             m_move_from = std::nullopt;
-            emit userTurnCompleted(moveTo);
+            emit userTurnCompleted(move_to);
         } else {
             m_move_from = std::nullopt;
         }
     }
 }
 
-void Board::onSelectBall(const Coordinate moveFrom)
+void Board::onSelectBall(const Coordinate move_from)
 {
     // If another ball is being selected, stop animating that ball.
     if (m_move_from.has_value()) {
         getTile(*m_move_from)->ball()->stopAnimation();
     }
-    m_move_from = moveFrom;
+    m_move_from = move_from;
 }
 
 void Board::onUnselectBall()
@@ -81,21 +81,21 @@ void Board::onUnselectBall()
     m_move_from = std::nullopt;
 }
 
-bool Board::isValidMove(const Coordinate moveFrom, const Coordinate moveTo)
+bool Board::isValidMove(const Coordinate move_from, const Coordinate move_to)
 {
     // Uses BFS to check the existence of a path.
     const std::vector<Coordinate> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-    std::queue<Coordinate> toExplore;
+    std::queue<Coordinate> to_explore;
     QSet<Coordinate> visited;
 
-    toExplore.push(moveFrom);
-    visited.insert(moveFrom);
+    to_explore.push(move_from);
+    visited.insert(move_from);
 
-    while (!toExplore.empty()) {
-        Coordinate current = toExplore.front();
-        toExplore.pop();
+    while (!to_explore.empty()) {
+        Coordinate current = to_explore.front();
+        to_explore.pop();
 
-        if (current == moveTo) {
+        if (current == move_to) {
             return true;
         }
 
@@ -103,7 +103,7 @@ bool Board::isValidMove(const Coordinate moveFrom, const Coordinate moveTo)
             const Coordinate next = current + direction;
             if (isEmptyTile(next) && !visited.contains(next)) {
                 visited.insert(next);
-                toExplore.push(next);
+                to_explore.push(next);
             }
         }
     }
@@ -131,8 +131,8 @@ std::optional<Coordinate> Board::getRandomEmptyGrid()
     }
 
     const QList<Coordinate> list = m_empty_tiles.values();
-    const int randomIndex = QRandomGenerator::global()->bounded(list.size());
-    return list.at(randomIndex);
+    const int random_index = QRandomGenerator::global()->bounded(list.size());
+    return list.at(random_index);
 }
 
 std::optional<BallColor> Board::getBallColor(Coordinate coordinate)

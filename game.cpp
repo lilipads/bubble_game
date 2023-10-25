@@ -21,6 +21,7 @@ QGraphicsScene *Game::panelScene() const
     return m_panel->scene();
 }
 
+void Game::startGame() {}
 void Game::scoreAndUpdateBoard(const Coordinate coordinate)
 {
     const int delta_score = getDeltaScoreAndEliminateLines(coordinate);
@@ -75,12 +76,16 @@ void Game::addNewBalls()
         std::optional<Coordinate> coordinate_or = m_board->getRandomEmptyGrid();
         if (coordinate_or.has_value()) {
             m_board->addBall(m_next_batch_colors[i], *coordinate_or);
+            // A newly placed ball can form a qualifying line (e.g. if there are already 4
+            // consecutive balls, and a new ball is added to the end of the line).
+            // Also adds that to the score.
+            m_score += getDeltaScoreAndEliminateLines(*coordinate_or);
         }
     }
     setAndDisplayNextBatchColors();
 }
 
-std::vector<BallColor> Game::getNextBatchColors()
+std::vector<BallColor> Game::getNextBatchColors() const
 {
     static std::random_device rd;  // Used to initialize our mersenne_twister_engine
     static std::mt19937 gen(rd()); // A mersenne_twister_engine seeded with rd()
@@ -102,7 +107,7 @@ void Game::setAndDisplayNextBatchColors()
 }
 
 std::vector<Coordinate> Game::getConsecutiveCoordWithSameColor(const Coordinate origin,
-                                                               const Coordinate direction)
+                                                               const Coordinate direction) const
 {
     std::vector<Coordinate> tiles;
     const std::optional<BallColor> origin_color_or = m_board->getBallColor(origin);
@@ -126,7 +131,7 @@ std::vector<Coordinate> Game::getConsecutiveCoordWithSameColor(const Coordinate 
 
 int Game::scoreLine(const std::vector<Coordinate> &segment1,
                     const std::vector<Coordinate> &segment2,
-                    const int per_ball_score)
+                    const int per_ball_score) const
 {
     const int line_length = segment1.size() + segment2.size() + 1;
     return line_length >= kMinLine ? line_length * per_ball_score : 0;

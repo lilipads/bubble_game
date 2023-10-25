@@ -13,9 +13,9 @@ public:
     QGraphicsScene *boardScene() const;
     QGraphicsScene *panelScene() const;
 
-    // Updates m_score and eliminates line if any line is formed at the `coordinate`.
-    void scoreAndUpdateBoard(const Coordinate coordinate);
-    int getScore() { return m_score; }
+    void startGame();
+
+    int getScore() const { return m_score; }
 
 private:
     const int kGridSize = 9;
@@ -30,11 +30,18 @@ private:
     int m_score;
     std::vector<BallColor> m_next_batch_colors;
 
+    // Updates m_score and eliminates lines if any line is formed at the `coordinate`. Otherwise, adds new ball to the board.
+    void scoreAndUpdateBoard(const Coordinate coordinate);
+
     void setAndDisplayNextBatchColors();
+
     // Randomly samples colors with replacement.
-    std::vector<BallColor> getNextBatchColors();
+    std::vector<BallColor> getNextBatchColors() const;
+
     // Adds up to kNewBalls balls when there is still space, and update the display panel for the next batch of balls.-
     void addNewBalls();
+
+    // Returns incremental score for lines formed in any direction containing `coordinate`. Removes such lines if they reach the minimal length to score.
     int getDeltaScoreAndEliminateLines(const Coordinate coordinate);
 
     // `direction` is a unit vector such as (0, 1). Scores a line containing the `origin` in `direction` and its opposite direction, (e.g. (0, 1) means the vertical direction). If the line has a score, update `delta_score` and removes the line except `origin` from the board.
@@ -45,12 +52,12 @@ private:
 
     //  Returns coordinates of consecutive tiles with the same color ball as the ball at `origin` in a given `direction` if they exist. This does not include the Tile at the `origin`.
     std::vector<Coordinate> getConsecutiveCoordWithSameColor(const Coordinate origin,
-                                                             const Coordinate direction);
+                                                             const Coordinate direction) const;
 
     // Returns the score of the line. Can be 0 if the line doesn't qualify. `segment1` and `segment2`, together with the origin (the spacing in between the two segments), joins togehter to form a consecutive line.
     int scoreLine(const std::vector<Coordinate> &segment1,
                   const std::vector<Coordinate> &segment2,
-                  const int per_ball_score);
+                  const int per_ball_score) const;
 
     // Removes balls from `segment1` and `segment2`.
     void removeSegments(const std::vector<Coordinate> &segment1,

@@ -5,7 +5,9 @@
 Game::Game(QWidget *parent)
     : QWidget(parent)
     , m_board(new Board(kGridSize, this)) // Initialize Board instance
-{}
+{
+    connect(m_board, &Board::userTurnCompleted, this, &Game::scoreAndUpdateBoard);
+}
 
 QGraphicsScene *Game::gameScene() const
 {

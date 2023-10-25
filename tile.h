@@ -14,7 +14,7 @@ public:
     int size() const { return kSize; }
     Coordinate coordinate() const { return m_coordinate; }
     void setBall(Ball* ball);
-    void removeBall() { m_ball = nullptr; }
+    void removeBall() { delete m_ball; }
     Ball* ball() const { return m_ball; }
 
     QRectF boundingRect() const override;

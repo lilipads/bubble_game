@@ -26,6 +26,9 @@ public:
     // Returns a random empty grid if it exists. Otherwise returns a nullopt.
     std::optional<Coordinate> getEmptyGrid();
 
+signals:
+    void userTurnCompleted(Coordinate coordinate);
+
 private:
     QGraphicsScene *m_scene;
     int m_gridSize;
@@ -38,12 +41,13 @@ private:
     // Renders an empty grid UI.
     void initializeTiles();
     // Moves the ball to the selected empty tile if there is a ball to move.
-    void onSelectEmptyTile(Coordinate move_to);
-    void onSelectBall(Coordinate move_from);
+    void onSelectEmptyTile(const Coordinate move_to);
+    void onSelectBall(const Coordinate move_from);
     void onUnselectBall();
     // Returns a pointer to the tile at coordinate if the coordinate is valid.
     // Throws an std::out_of_range error otherwise.
-    Tile *getTile(Coordinate coordinate);
+    Tile *getTile(const Coordinate coordinate);
+    bool isValidMove(const Coordinate move_from, const Coordinate move_to);
 };
 
 #endif // BOARD_H

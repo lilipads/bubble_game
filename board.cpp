@@ -59,18 +59,20 @@ void Board::moveBall(const Coordinate from, const Coordinate to)
     removeBall(from);
 }
 
-void Board::onSelectEmptyTile(Coordinate move_to)
+void Board::onSelectEmptyTile(const Coordinate move_to)
 {
     if (m_move_from.has_value()) {
         getTile(*m_move_from)->ball()->stopAnimation();
         // Tries to move the ball.
-        // TODO: checks validity of the move
-        moveBall(*m_move_from, move_to);
-        m_move_from = std::nullopt;
+        if (isValidMove(*m_move_from, move_to)) {
+            moveBall(*m_move_from, move_to);
+            m_move_from = std::nullopt;
+            emit userTurnCompleted(move_to);
+        }
     }
 }
 
-void Board::onSelectBall(Coordinate move_from)
+void Board::onSelectBall(const Coordinate move_from)
 {
     // If another ball is being selected, stop animating that ball.
     if (m_move_from.has_value()) {
@@ -84,7 +86,13 @@ void Board::onUnselectBall()
     m_move_from = std::nullopt;
 }
 
-Tile *Board::getTile(Coordinate coordinate)
+bool Board::isValidMove(const Coordinate move_from, const Coordinate move_to)
+{
+    // TODO
+    return true;
+}
+
+Tile *Board::getTile(const Coordinate coordinate)
 {
     if (coordinate.x < 0 || coordinate.x >= m_gridSize || coordinate.y < 0
         || coordinate.y >= m_gridSize) {

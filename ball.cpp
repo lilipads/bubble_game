@@ -94,6 +94,6 @@ void Ball::stopAnimation()
     if (!m_animation) {
         return;
     }
-    // Instead of using stop(), this brings the animation to an end.
-    m_animation->setLoopCount(1);
+    m_animation->stop();
+    setScaleY(1.0); // Restores ball to original shape.
 }

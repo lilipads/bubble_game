@@ -13,8 +13,6 @@ public:
     QGraphicsScene *boardScene() const;
     QGraphicsScene *panelScene() const;
 
-    void startGame();
-
     int getScore() const { return m_score; }
 
 private:

@@ -21,7 +21,6 @@ QGraphicsScene *Game::panelScene() const
     return m_panel->scene();
 }
 
-void Game::startGame() {}
 void Game::scoreAndUpdateBoard(const Coordinate coordinate)
 {
     const int delta_score = getDeltaScoreAndEliminateLines(coordinate);

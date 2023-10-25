@@ -20,6 +20,8 @@ struct Coordinate
         return *this;
     }
 
+    Coordinate operator+(const Coordinate &other) { return {.x = x + other.x, .y = y + other.y}; }
+
     Coordinate operator-() const { return Coordinate{-x, -y}; }
 };
 

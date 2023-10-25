@@ -43,11 +43,12 @@ private:
 
     // Renders an empty grid UI.
     void initializeTiles();
-    // Moves the ball to the selected empty tile if there is a ball to move.
-    void onSelectEmptyTile(const Coordinate move_to);
 
-    // Updates `m_move_from` to prepare to move the selected ball. If another ball is being selected, stop animating that ball. Throws an error if `move_from` is out of range.
-    void onSelectBall(const Coordinate move_from);
+    // Moves the ball to the selected empty tile at `moveTo` if there is a ball to move.
+    void onSelectEmptyTile(const Coordinate moveTo);
+
+    // Updates `m_move_from` to prepare to move the selected ball. If another ball is being selected, stop animating that ball. Throws an error if `moveFrom` is out of range.
+    void onSelectBall(const Coordinate moveFrom);
 
     // Updates `m_move_from` to erase the previous selected coordinate.
     void onUnselectBall();
@@ -56,9 +57,12 @@ private:
     // Throws an std::out_of_range error otherwise.
     Tile *getTile(const Coordinate coordinate);
 
-    // Returns true if there is a path between `move_from` and `move_to`.
+    // Returns true if there is a path between `moveFrom` and `moveTo`.
     // A path means the ball can move up / down / left / right across empty tiles from the source to the destination.
-    bool isValidMove(const Coordinate move_from, const Coordinate move_to);
+    bool isValidMove(const Coordinate moveFrom, const Coordinate moveTo);
+
+    // Returns true if it is an empty tile. Returns false if the tile has a ball or if the coordinate is not valid.
+    bool isEmptyTile(const Coordinate coordinate) const;
 };
 
 #endif // BOARD_H

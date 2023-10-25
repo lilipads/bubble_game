@@ -1,6 +1,7 @@
 #include "board.h"
 
 #include <QRandomGenerator>
+#include <queue>
 
 Board::Board(int size, QWidget *parent)
     : QWidget(parent)
@@ -51,26 +52,26 @@ void Board::moveBall(const Coordinate from, const Coordinate to)
     removeBall(from);
 }
 
-void Board::onSelectEmptyTile(const Coordinate move_to)
+void Board::onSelectEmptyTile(const Coordinate moveTo)
 {
     if (m_move_from.has_value()) {
         getTile(*m_move_from)->ball()->stopAnimation();
         // Tries to move the ball.
-        if (isValidMove(*m_move_from, move_to)) {
-            moveBall(*m_move_from, move_to);
+        if (isValidMove(*m_move_from, moveTo)) {
+            moveBall(*m_move_from, moveTo);
             m_move_from = std::nullopt;
-            emit userTurnCompleted(move_to);
+            emit userTurnCompleted(moveTo);
         }
     }
 }
 
-void Board::onSelectBall(const Coordinate move_from)
+void Board::onSelectBall(const Coordinate moveFrom)
 {
     // If another ball is being selected, stop animating that ball.
     if (m_move_from.has_value()) {
         getTile(*m_move_from)->ball()->stopAnimation();
     }
-    m_move_from = move_from;
+    m_move_from = moveFrom;
 }
 
 void Board::onUnselectBall()
@@ -78,12 +79,38 @@ void Board::onUnselectBall()
     m_move_from = std::nullopt;
 }
 
-bool Board::isValidMove(const Coordinate move_from, const Coordinate move_to)
+bool Board::isValidMove(const Coordinate moveFrom, const Coordinate moveTo)
 {
     // Uses BFS to check the existence of a path.
-    // TODO
     const std::vector<Coordinate> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-    return true;
+    std::queue<Coordinate> toExplore;
+    QSet<Coordinate> visited;
+
+    toExplore.push(moveFrom);
+    visited.insert(moveFrom);
+
+    while (!toExplore.empty()) {
+        Coordinate current = toExplore.front();
+        toExplore.pop();
+
+        if (current == moveTo) {
+            return true;
+        }
+
+        for (const Coordinate &direction : directions) {
+            const Coordinate next = current + direction;
+            if (isEmptyTile(next) && !visited.contains(next)) {
+                visited.insert(next);
+                toExplore.push(next);
+            }
+        }
+    }
+    return false;
+}
+
+bool Board::isEmptyTile(const Coordinate coordinate) const
+{
+    return m_empty_tiles.contains(coordinate);
 }
 
 Tile *Board::getTile(const Coordinate coordinate)

@@ -63,7 +63,7 @@ void Ball::setScaleY(qreal scaleY)
 
 bool Ball::isAnimating()
 {
-    return m_animation->state() != QAbstractAnimation::Stopped;
+    return m_animation && m_animation->state() != QAbstractAnimation::Stopped;
 }
 
 void Ball::initializeAnimation()

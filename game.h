@@ -28,7 +28,7 @@ private:
     void setAndDisplayNextBatchColors();
     // Randomly samples colors with replacement.
     std::vector<BallColor> getNextBatchColors();
-    // Adds up to kNewBalls balls when there is still space.
+    // Adds up to kNewBalls balls when there is still space, and update the display panel for the next batch of balls.-
     void addNewBalls();
     int getDeltaScoreAndEliminateLines(const Coordinate coordinate);
 

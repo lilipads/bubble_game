@@ -14,7 +14,8 @@ public:
     int size() const { return kSize; }
     Coordinate coordinate() const { return m_coordinate; }
     void setBall(Ball* ball);
-    void removeBall() { delete m_ball; }
+    // Removes the ball from the tile. If no ball exists, this is a no-op.
+    void removeBall();
     Ball* ball() const { return m_ball; }
 
     QRectF boundingRect() const override;

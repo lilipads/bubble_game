@@ -8,9 +8,6 @@ Board::Board(int size, QWidget *parent)
     , m_gridSize(size)
 {
     initializeTiles();
-    addBall(BallColor::Red, {.x = 1, .y = 2});
-    addBall(BallColor::Blue, {.x = 3, .y = 6});
-    addBall(BallColor::Green, {.x = 0, .y = 0});
 }
 
 void Board::initializeTiles()

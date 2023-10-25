@@ -19,3 +19,13 @@ void NextBatchPanel::initializeTiles()
         m_scene->addItem(tile);
     }
 }
+
+void NextBatchPanel::updatePanel(const std::vector<BallColor> &colors)
+{
+    for (int x = 0; x < m_length && x < colors.size(); ++x) {
+        Tile *tile = m_tiles[x];
+        Ball *ball = new Ball(colors[x], tile->size());
+        tile->removeBall();
+        tile->setBall(ball);
+    }
+}

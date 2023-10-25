@@ -8,6 +8,7 @@ Game::Game(QWidget *parent)
     , m_panel(new NextBatchPanel(kNewBalls, this))
 {
     connect(m_board, &Board::userTurnCompleted, this, &Game::scoreAndUpdateBoard);
+    addNewBalls();
 }
 
 QGraphicsScene *Game::boardScene() const
@@ -44,6 +45,9 @@ int Game::getDeltaScoreAndEliminateLines(const Coordinate coordinate)
 
 void Game::addNewBalls()
 {
+    if (m_next_batch_colors.size() == 0) {
+        setAndDisplayNextBatchColors();
+    }
     for (int i = 0; i < m_next_batch_colors.size(); ++i) {
         std::optional<Coordinate> coordinate_or = m_board->getEmptyGrid();
         if (coordinate_or.has_value()) {
@@ -71,5 +75,5 @@ std::vector<BallColor> Game::getNextBatchColors()
 void Game::setAndDisplayNextBatchColors()
 {
     m_next_batch_colors = getNextBatchColors();
-    // TODO: display next batch colors
+    m_panel->updatePanel(m_next_batch_colors);
 }

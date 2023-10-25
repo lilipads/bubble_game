@@ -49,3 +49,11 @@ void Tile::setBall(Ball* ball)
     ball->setParentItem(this);
     ball->setPos(0.0, 0.0);
 }
+
+void Tile::removeBall()
+{
+    if (m_ball != nullptr) {
+        delete m_ball;
+        m_ball = nullptr;
+    }
+}

@@ -14,6 +14,7 @@ class NextBatchPanel : public QWidget
 public:
     NextBatchPanel(int length, QWidget *parent = nullptr);
     QGraphicsScene *scene() const { return m_scene; }
+    // Fills the tiles with balls of `colors`.
     void updatePanel(const std::vector<BallColor> &colors);
 
 private:

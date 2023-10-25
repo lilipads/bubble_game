@@ -15,7 +15,7 @@ public:
 
     // Adds a ball to the given location if and only if the location is valid
     // and there is no ball there already.
-    void addBall(const QColor color, const Coordinate coordinate);
+    void addBall(const BallColor color, const Coordinate coordinate);
 
     // Moves a ball from `from` to `to`. If no ball exists at `from`, nothing happens.
     void moveBall(const Coordinate from, const Coordinate to);

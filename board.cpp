@@ -6,9 +6,9 @@ Board::Board(int size, QWidget *parent)
     , m_gridSize(size)
 {
     initializeTiles();
-    addBall(Qt::black, {.x = 1, .y = 2});
-    addBall(Qt::blue, {.x = 3, .y = 6});
-    addBall(Qt::red, {.x = 0, .y = 0});
+    addBall(BallColor::Red, {.x = 1, .y = 2});
+    addBall(BallColor::Blue, {.x = 3, .y = 6});
+    addBall(BallColor::Green, {.x = 0, .y = 0});
 }
 
 QGraphicsScene *Board::scene() const
@@ -33,7 +33,7 @@ void Board::initializeTiles()
     }
 }
 
-void Board::addBall(const QColor color, const Coordinate coordinate)
+void Board::addBall(const BallColor color, const Coordinate coordinate)
 {
     Tile *tile = getTile(coordinate);
     Ball *ball = new Ball(color, tile->size());
@@ -57,7 +57,6 @@ void Board::onSelectEmptyTile(Coordinate move_to)
         moveBall(*m_move_from, move_to);
         m_move_from = std::nullopt;
     }
-    qDebug() << "Tile clicked at coordinate:" << move_to.toString();
 }
 
 void Board::onSelectBall(Coordinate move_from)
@@ -67,13 +66,11 @@ void Board::onSelectBall(Coordinate move_from)
         getTile(*m_move_from)->ball()->stopAnimation();
     }
     m_move_from = move_from;
-    qDebug() << "Ball selected at coordinate:" << move_from.toString();
 }
 
 void Board::onUnselectBall()
 {
     m_move_from = std::nullopt;
-    qDebug() << "Ball unselected.";
 }
 
 Tile *Board::getTile(Coordinate coordinate)

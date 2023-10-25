@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QPen>
 
-Ball::Ball(const QColor color, const int tileSize)
+Ball::Ball(const BallColor color, const int tileSize)
     : m_color(color)
     , m_margin_to_tile((tileSize - kSize) / 2)
 {
@@ -25,11 +25,12 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->drawEllipse(boundingRect());
 }
 
-QRadialGradient Ball::generateGradient(const QColor &baseColor) const
+QRadialGradient Ball::generateGradient(const BallColor &baseColor) const
 {
-    const int r = baseColor.red();
-    const int g = baseColor.green();
-    const int b = baseColor.blue();
+    const QColor qBaseColor = toQColor(baseColor);
+    const int r = qBaseColor.red();
+    const int g = qBaseColor.green();
+    const int b = qBaseColor.blue();
 
     const QColor brightShade(qMin(r + 240, 255), qMin(g + 240, 255), qMin(b + 240, 255));
     const QColor intermediateShade(qMin(r + 50, 255), qMin(g + 50, 255), qMin(b + 50, 255));
@@ -41,8 +42,8 @@ QRadialGradient Ball::generateGradient(const QColor &baseColor) const
                              /*fx=*/kSize / 4,
                              /*fy=*/kSize / 4);
     gradient.setColorAt(0.0, brightShade);
-    gradient.setColorAt(0.3, intermediateShade);
-    gradient.setColorAt(0.7, darkShade);
+    gradient.setColorAt(0.5, intermediateShade);
+    gradient.setColorAt(0.9, darkShade);
 
     return gradient;
 }

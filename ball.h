@@ -6,14 +6,36 @@
 #include <QLinearGradient>
 #include <QPropertyAnimation>
 
+enum class BallColor { Red, Yellow, Brown, Green, Blue, Cyan };
+
+inline QColor toQColor(const BallColor &color)
+{
+    switch (color) {
+    case BallColor::Red:
+        return Qt::red;
+    case BallColor::Yellow:
+        return Qt::yellow;
+    case BallColor::Brown:
+        return QColor(165, 42, 42);
+    case BallColor::Green:
+        return Qt::green;
+    case BallColor::Blue:
+        return Qt::blue;
+    case BallColor::Cyan:
+        return Qt::cyan;
+    default:
+        throw std::invalid_argument("Unsupported color!");
+    }
+}
+
 class Ball : public QGraphicsObject
 {
     Q_OBJECT
     Q_PROPERTY(qreal scaleY READ scaleY WRITE setScaleY NOTIFY scaleYChanged)
 
 public:
-    Ball(const QColor color, const int tileSize);
-    QColor color() const { return m_color; };
+    Ball(const BallColor color, const int tileSize);
+    BallColor color() const { return m_color; };
 
     // Animation for bounce effect.
     void startAnimation();
@@ -35,11 +57,11 @@ private:
     static const int kSize = 30;
     const qreal m_margin_to_tile;
 
-    const QColor m_color;
+    const BallColor m_color;
     QPropertyAnimation *m_animation;
 
     // Generates the gradient to create a 3D-looking ball.
-    QRadialGradient generateGradient(const QColor &baseColor) const;
+    QRadialGradient generateGradient(const BallColor &baseColor) const;
 
     void initializeAnimation();
 };

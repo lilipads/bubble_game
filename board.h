@@ -3,6 +3,7 @@
 
 #include <QGraphicsScene>
 #include "QtWidgets/qwidget.h"
+
 #include "ball.h"
 #include "tile.h"
 
@@ -13,12 +14,17 @@ public:
     explicit Board(int size, QWidget *parent = nullptr);
     QGraphicsScene *scene() const;
 
-    // Adds a ball to the given location if and only if the location is valid
-    // and there is no ball there already.
+    // Adds a ball to the given `coordinate` if and only if there is no ball there already. Throws an error if `coordinate` is out of range.
     void addBall(const BallColor color, const Coordinate coordinate);
 
-    // Moves a ball from `from` to `to`. If no ball exists at `from`, nothing happens.
+    // Moves a ball from `from` to `to`. If no ball exists at `from`, nothing happens. Throws an error if either `from` or `to` is out of range.
     void moveBall(const Coordinate from, const Coordinate to);
+
+    // Removes a ball at `coordinate`. If there is no ball, this is no-op. Throws an error if `coordinate` is out of range.
+    void removeBall(const Coordinate coordinate);
+
+    // Returns a random empty grid if it exists. Otherwise returns a nullopt.
+    std::optional<Coordinate> getEmptyGrid();
 
 private:
     QGraphicsScene *m_scene;
@@ -26,6 +32,8 @@ private:
     // Array of pointers to Tile objects.
     Tile ***m_tiles;
     std::optional<Coordinate> m_move_from;
+    // Keeps track of emtpy tiles.
+    QSet<Coordinate> m_empty_tiles;
 
     // Renders an empty grid UI.
     void initializeTiles();

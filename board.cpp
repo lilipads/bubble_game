@@ -1,5 +1,7 @@
 #include "board.h"
 
+#include <QRandomGenerator>
+
 Board::Board(int size, QWidget *parent)
     : QWidget(parent)
     , m_scene(new QGraphicsScene(this))
@@ -22,13 +24,15 @@ void Board::initializeTiles()
     for (int x = 0; x < m_gridSize; ++x) {
         m_tiles[x] = new Tile *[m_gridSize];
         for (int y = 0; y < m_gridSize; ++y) {
-            Tile *tile = new Tile({.x = x, .y = y});
+            const Coordinate coordinate = {.x = x, .y = y};
+            Tile *tile = new Tile(coordinate);
             tile->setPos(x * tile->size(), y * tile->size());
             m_tiles[x][y] = tile;
             m_scene->addItem(tile);
             connect(tile, &Tile::selectEmptyTile, this, &Board::onSelectEmptyTile);
             connect(tile, &Tile::selectBall, this, &Board::onSelectBall);
             connect(tile, &Tile::unselectBall, this, &Board::onUnselectBall);
+            m_empty_tiles.insert(coordinate);
         }
     }
 }
@@ -38,14 +42,21 @@ void Board::addBall(const BallColor color, const Coordinate coordinate)
     Tile *tile = getTile(coordinate);
     Ball *ball = new Ball(color, tile->size());
     tile->setBall(ball);
+    m_empty_tiles.remove(coordinate);
+}
+
+void Board::removeBall(const Coordinate coordinate)
+{
+    Tile *fromTile = getTile(coordinate);
+    fromTile->removeBall();
+    m_empty_tiles.insert(coordinate);
 }
 
 void Board::moveBall(const Coordinate from, const Coordinate to)
 {
-    Tile *fromTile = getTile(from);
-    Tile *toTile = getTile(to);
-    toTile->setBall(fromTile->ball());
-    fromTile->removeBall();
+    BallColor color = getTile(from)->ball()->color();
+    addBall(color, to);
+    removeBall(from);
 }
 
 void Board::onSelectEmptyTile(Coordinate move_to)
@@ -80,4 +91,15 @@ Tile *Board::getTile(Coordinate coordinate)
         throw std::out_of_range("Value out of allowed range");
     }
     return m_tiles[coordinate.x][coordinate.y];
+}
+
+std::optional<Coordinate> Board::getEmptyGrid()
+{
+    if (m_empty_tiles.isEmpty()) {
+        return std::nullopt;
+    }
+
+    const QList<Coordinate> list = m_empty_tiles.values();
+    const int randomIndex = QRandomGenerator::global()->bounded(list.size());
+    return list.at(randomIndex);
 }

@@ -6,6 +6,7 @@
 #include <QLinearGradient>
 #include <QPropertyAnimation>
 
+const int kNumColors = 6;
 enum class BallColor { Red, Yellow, Brown, Green, Blue, Cyan };
 
 inline QColor toQColor(const BallColor &color)

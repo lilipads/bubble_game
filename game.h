@@ -20,8 +20,12 @@ private:
     const int kNewBalls = 3;
     Board *m_board;
     int m_score;
+    std::vector<BallColor> m_next_batch_colors;
 
-    void displayNextBatchColors();
+    void setAndDisplayNextBatchColors();
+    // Randomly samples colors with replacement.
+    std::vector<BallColor> getNextBatchColors();
+    // Adds up to kNewBalls balls when there is still space.
     void addNewBalls();
     int getDeltaScoreAndEliminateLines(const Coordinate coordinate);
 

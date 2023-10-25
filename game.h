@@ -13,7 +13,8 @@ public:
     QGraphicsScene *boardScene() const;
     QGraphicsScene *panelScene() const;
 
-    int getScore() const { return m_score; }
+signals:
+    void scoreUpdated(int score);
 
 private:
     const int kGridSize = 9;

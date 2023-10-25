@@ -17,12 +17,16 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_new_game_button_clicked();
+    // Starts a new game upon button click.
+    void onNewGameButtonClicked();
 
 private:
     Ui::MainWindow *ui;
     Game *m_game;
 
     void initializeUi();
+
+    // Updates the score box display.
+    void onScoreUpdated(int score);
 };
 #endif // MAINWINDOW_H

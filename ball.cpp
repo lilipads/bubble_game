@@ -51,10 +51,12 @@ QRadialGradient Ball::generateGradient(const BallColor &baseColor) const
 void Ball::setScaleY(qreal scaleY)
 {
     QTransform t = transform();
+
+    // Squashes vertically.
     t.setMatrix(t.m11(), t.m12(), t.m13(), t.m21(), scaleY, t.m23(), t.m31(), t.m32(), t.m33());
     setTransform(t);
 
-    // Keeps the bottom position fixed.
+    // Shifts y to keeps the bottom position fixed.
     qreal posYOffset = kSize * (1.0 - scaleY);
     setPos(pos().x(), posYOffset);
 

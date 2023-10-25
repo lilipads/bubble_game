@@ -28,6 +28,7 @@ void Game::scoreAndUpdateBoard(const Coordinate coordinate)
     if (delta_score == 0) {
         addNewBalls();
     }
+    emit scoreUpdated(m_score);
 }
 
 int Game::getDeltaScoreAndEliminateLines(const Coordinate coordinate)

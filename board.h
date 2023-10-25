@@ -22,13 +22,16 @@ private:
     int m_gridSize;
     // Array of pointers to Tile objects.
     Tile ***m_tiles;
+    std::optional<Coordinate> m_move_from;
 
     // Renders an empty grid UI.
     void initializeTiles();
 
-    void handleTileClick(Coordinate coordinate);
-    void handleBallSelect(Coordinate coordinate);
-    void handleBallUnselect();
+    void onSelectEmptyTile(Coordinate coordinate);
+    void onSelectBall(Coordinate coordinate);
+    void onUnselectBall();
+    // Returns a pointer to the tile at coordinate.
+    Tile *getTile(Coordinate coordinate);
 };
 
 #endif // BOARD_H

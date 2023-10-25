@@ -26,11 +26,14 @@ void Board::initializeTiles()
             tile->setPos(x * tile->size(), y * tile->size());
             m_tiles[x][y] = tile;
             m_scene->addItem(tile);
-            connect(tile, &Tile::onClick, this, &Board::handleTileClick);
+            connect(tile, &Tile::selectEmptyTile, this, &Board::onSelectEmptyTile);
+            connect(tile, &Tile::selectBall, this, &Board::onSelectBall);
+            connect(tile, &Tile::unselectBall, this, &Board::onUnselectBall);
         }
     }
 }
 
+// TODO: take in Position instead of raw x and y
 void Board::addBall(const QColor color, const int x, const int y)
 {
     // Returns if the coordinate is invalid.
@@ -39,21 +42,34 @@ void Board::addBall(const QColor color, const int x, const int y)
     }
     Ball *ball = new Ball(color, m_tiles[x][y]->size());
     m_tiles[x][y]->setBall(ball);
-    connect(ball, &Ball::onSelect, this, &Board::handleBallSelect);
-    connect(ball, &Ball::onUnselect, this, &Board::handleBallUnselect);
 }
 
-void Board::handleTileClick(Coordinate pos)
+void Board::onSelectEmptyTile(Coordinate coordinate)
 {
-    qDebug() << "Tile clicked at coordinate:" << pos.x << pos.y;
+    if (m_move_from.has_value()) {
+        // stop animating
+        // try to move
+    }
+    qDebug() << "Tile clicked at coordinate:" << coordinate.toString();
 }
 
-void Board::handleBallSelect(Coordinate pos)
+void Board::onSelectBall(Coordinate coordinate)
 {
-    qDebug() << "Ball selected at coordinate:" << pos.x << pos.y;
+    // If another ball is being selected, stop animating that ball.
+    if (m_move_from.has_value()) {
+        getTile(*m_move_from)->ball()->stopAnimation();
+    }
+    m_move_from = coordinate;
+    qDebug() << "Ball selected at coordinate:" << coordinate.toString();
 }
 
-void Board::handleBallUnselect()
+void Board::onUnselectBall()
 {
-    qDebug() << "Ball unselected at coordinate";
+    m_move_from = std::nullopt;
+    qDebug() << "Ball unselected.";
+}
+
+Tile *Board::getTile(Coordinate coordinate)
+{
+    return m_tiles[coordinate.x][coordinate.y];
 }

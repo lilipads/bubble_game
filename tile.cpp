@@ -25,7 +25,17 @@ void Tile::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
 
 void Tile::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    emit onClick(m_coordinate);
+    if (m_ball) {
+        if (m_ball->isAnimating()) {
+            m_ball->stopAnimation();
+            emit unselectBall();
+        } else {
+            m_ball->startAnimation();
+            emit selectBall(m_coordinate);
+        }
+    } else {
+        emit selectEmptyTile(m_coordinate);
+    }
     QGraphicsObject::mousePressEvent(event);
 }
 

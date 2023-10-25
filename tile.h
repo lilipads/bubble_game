@@ -20,7 +20,9 @@ public:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
 signals:
-    void onClick(Coordinate coordinate);
+    void selectEmptyTile(Coordinate coordinate);
+    void unselectBall();
+    void selectBall(Coordinate coordinate);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override;

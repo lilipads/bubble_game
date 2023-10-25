@@ -60,21 +60,9 @@ void Ball::setScaleY(qreal scaleY)
     emit scaleYChanged();
 }
 
-void Ball::mousePressEvent(QGraphicsSceneMouseEvent *event)
+bool Ball::isAnimating()
 {
-    if (event->button() == Qt::LeftButton) {
-        if (!m_animation) {
-            initializeAnimation();
-        }
-        if (m_animation->state() == QAbstractAnimation::Stopped) {
-            startAnimation();
-            //            emit onSelect(m_coordinate);
-        } else {
-            stopAnimation();
-            emit onUnselect();
-        }
-    }
-    QGraphicsObject::mousePressEvent(event);
+    return m_animation->state() != QAbstractAnimation::Stopped;
 }
 
 void Ball::initializeAnimation()
@@ -93,6 +81,9 @@ void Ball::initializeAnimation()
 
 void Ball::startAnimation()
 {
+    if (!m_animation) {
+        initializeAnimation();
+    }
     // Indefinite animation.
     m_animation->setLoopCount(-1);
     m_animation->start();
@@ -100,6 +91,9 @@ void Ball::startAnimation()
 
 void Ball::stopAnimation()
 {
+    if (!m_animation) {
+        return;
+    }
     // Instead of using stop(), this brings the animation to an end.
     m_animation->setLoopCount(1);
 }

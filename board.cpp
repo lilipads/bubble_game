@@ -67,11 +67,14 @@ void Board::undo()
     std::vector<BallColor> colors_of_balls_to_add = m_newly_removed_ball_colors;
     std::vector<Coordinate> balls_to_remove = m_newly_added_balls;
 
-    for (const Coordinate coordinate : balls_to_remove) {
-        removeBall(coordinate);
-    }
+    // The order is relevant here: must add first and then remove. If a ball is
+    // moved and then gets scored, it shows up in both the added list and the
+    // removed list.
     for (int i = 0; i < balls_to_add.size() && i < colors_of_balls_to_add.size(); ++i) {
         addBall(colors_of_balls_to_add[i], balls_to_add[i]);
+    }
+    for (const Coordinate coordinate : balls_to_remove) {
+        removeBall(coordinate);
     }
 
     // Clears the data so the user cannot undo the undo.

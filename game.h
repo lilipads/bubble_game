@@ -32,6 +32,9 @@ private:
     // Incremental score during the last turn.
     int m_delta_score;
     std::vector<BallColor> m_next_batch_colors;
+    // Keeps track balls shown in the next batch panel before the most recent
+    // user move, in case of an undo.
+    std::vector<BallColor> m_curr_batch_colors;
 
     // Calculates the score, emits a signal to update the displayed score and
     // eliminates lines, if any line is formed at the `coordinate`. Otherwise,

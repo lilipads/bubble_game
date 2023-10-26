@@ -23,9 +23,17 @@ QGraphicsScene *Game::panelScene() const
 
 void Game::undo()
 {
+    // Undoes ball placement.
     m_board->undo();
+
+    // Undoes next batch color.
+    m_next_batch_colors = m_curr_batch_colors;
+    m_panel->updatePanel(m_next_batch_colors);
+
+    // Undoes score.
     m_score -= m_delta_score;
     m_delta_score = 0;
+    emit scoreUpdated(m_score);
 }
 
 void Game::scoreAndUpdateBoard(const Coordinate coordinate)
@@ -34,6 +42,10 @@ void Game::scoreAndUpdateBoard(const Coordinate coordinate)
     updateDeltaScoreAndRemoveLines(coordinate);
     if (m_delta_score == 0) {
         addNewBalls();
+    } else {
+        // No new balls are added, so the current batch colors get updated for
+        // correct undo behaviors.
+        m_curr_batch_colors = m_next_batch_colors;
     }
     m_score += m_delta_score;
     emit scoreUpdated(m_score);
@@ -107,6 +119,7 @@ std::vector<BallColor> Game::getNextBatchColors() const
 
 void Game::setAndDisplayNextBatchColors()
 {
+    m_curr_batch_colors = m_next_batch_colors;
     m_next_batch_colors = getNextBatchColors();
     m_panel->updatePanel(m_next_batch_colors);
 }

@@ -22,6 +22,8 @@ private slots:
     // Starts a new game upon button click.
     void onNewGameButtonClicked();
 
+    void onUndoButtonClicked();
+
 private:
     QSettings m_settings = QSettings(/*organization=*/"game", /*application=*/"bubble");
     const QString m_record_score_key = "record_score";

@@ -21,6 +21,13 @@ QGraphicsScene *Game::panelScene() const
     return m_panel->scene();
 }
 
+void Game::undo()
+{
+    m_board->undo();
+    m_score -= m_delta_score;
+    m_delta_score = 0;
+}
+
 void Game::scoreAndUpdateBoard(const Coordinate coordinate)
 {
     m_delta_score = 0;

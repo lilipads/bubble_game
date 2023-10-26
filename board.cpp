@@ -91,6 +91,8 @@ void Board::onSelectEmptyTile(const Coordinate move_to)
         getTile(*m_move_from)->ball()->stopAnimation();
         // Tries to move the ball.
         if (isValidMove(*m_move_from, move_to)) {
+            // Clears earlier move data as a user starts a new valid move.
+            clearRecentMoveData();
             moveBall(*m_move_from, move_to);
             m_move_from = std::nullopt;
             emit userTurnCompleted(move_to);

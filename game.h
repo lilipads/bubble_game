@@ -12,6 +12,8 @@ public:
     explicit Game(QWidget *parent = nullptr);
     QGraphicsScene *boardScene() const;
     QGraphicsScene *panelScene() const;
+    // Undoes the last move and rolls back the score.
+    void undo();
 
 signals:
     void scoreUpdated(int score);

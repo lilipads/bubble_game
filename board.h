@@ -37,9 +37,6 @@ public:
     // Undoes the most recent move.
     void undo();
 
-    // Clears the data on the recent move to disallow an undo.
-    void clearRecentMoveData();
-
 signals:
     void userTurnCompleted(Coordinate coordinate);
 
@@ -82,6 +79,9 @@ private:
     // Returns true if it is an empty tile. Returns false if the tile has a ball
     // or if the coordinate is not valid.
     bool isEmptyTile(const Coordinate coordinate) const;
+
+    // Clears the data on the recent move to disallow an undo.
+    void clearRecentMoveData();
 };
 
 #endif // BOARD_H

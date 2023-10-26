@@ -20,6 +20,7 @@ void MainWindow::initializeUi()
     ui->boardGraphicsView->setScene(m_game->boardScene());
     ui->panelGraphicsView->setScene(m_game->panelScene());
     connect(ui->newGameButton, &QPushButton::clicked, this, &MainWindow::onNewGameButtonClicked);
+    connect(ui->undoButton, &QPushButton::clicked, this, &MainWindow::onUndoButtonClicked);
     connect(m_game, &Game::scoreUpdated, this, &MainWindow::onScoreUpdated);
     m_record_score = getRecordScore();
     ui->recordScoreBox->display(m_record_score);
@@ -32,6 +33,11 @@ void MainWindow::onNewGameButtonClicked()
         m_game = new Game(this);
     }
     initializeUi();
+}
+
+void MainWindow::onUndoButtonClicked()
+{
+    m_game->undo();
 }
 
 void MainWindow::onScoreUpdated(int score)

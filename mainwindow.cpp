@@ -38,7 +38,6 @@ void MainWindow::onScoreUpdated(int score)
 {
     ui->scoreBox->display(score);
     maybeUpdateRecordScore(score);
-    ui->recordScoreBox->display(m_record_score);
 }
 
 void MainWindow::maybeUpdateRecordScore(int score)

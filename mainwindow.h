@@ -32,10 +32,11 @@ private:
 
     void initializeUi();
 
-    // Updates the score box display.
+    // Updates the score boxes display.
     void onScoreUpdated(int score);
 
-    // Updates the record if `score` is higher than the current record.
+    // Updates the record score and its display if `score` is higher than the
+    // current record.
     void maybeUpdateRecordScore(int score);
 
     // Returns the highest score in record. If no record, return 0.

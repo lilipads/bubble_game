@@ -29,8 +29,9 @@ private:
     int m_score;
     std::vector<BallColor> m_next_batch_colors;
 
-    // Updates m_score and eliminates lines if any line is formed at the
-    // `coordinate`. Otherwise, adds a new ball to the board.
+    // Calculates the score, emits a signal to update the displayed score and
+    // eliminates lines, if any line is formed at the `coordinate`. Otherwise,
+    // adds new balls to the board.
     void scoreAndUpdateBoard(const Coordinate coordinate);
 
     void setAndDisplayNextBatchColors();

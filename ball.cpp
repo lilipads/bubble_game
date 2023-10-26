@@ -63,8 +63,8 @@ bool Ball::isAnimating()
 
 void Ball::initializeAnimation()
 {
-    const qreal kSquashRatio = 0.8;
-    const int kDuration = 1000;
+    const qreal kSquashRatio = 0.7;
+    const int kDuration = 800;
 
     // Animation to squash the ball vertically.
     m_animation = new QPropertyAnimation(this, "scaleY");

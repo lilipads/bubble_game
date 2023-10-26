@@ -62,7 +62,7 @@ private:
     QPropertyAnimation *m_animation;
 
     // Generates the gradient to create a 3D-looking ball.
-    QRadialGradient generateGradient(const BallColor &baseColor) const;
+    QRadialGradient generateGradient(const BallColor &base_color) const;
 
     void initializeAnimation();
 };

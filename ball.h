@@ -35,7 +35,7 @@ class Ball : public QGraphicsObject
     Q_PROPERTY(qreal scaleY READ scaleY WRITE setScaleY NOTIFY scaleYChanged)
 
 public:
-    Ball(const BallColor color, const int tileSize);
+    Ball(const BallColor color, const int tile_size);
     BallColor color() const { return m_color; };
 
     // Animation for bounce effect.

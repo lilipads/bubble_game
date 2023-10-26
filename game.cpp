@@ -58,8 +58,8 @@ void Game::scoreLineAndRemoveSegments(const Coordinate origin,
                                       const int per_ball_score,
                                       int &delta_score)
 {
-    const auto segment1 = getConsecutiveCoordWithSameColor(origin, direction);
-    const auto segment2 = getConsecutiveCoordWithSameColor(origin, -direction);
+    const auto segment1 = getSegmentWithSameColor(origin, direction);
+    const auto segment2 = getSegmentWithSameColor(origin, -direction);
     const int score = scoreLine(segment1, segment2, per_ball_score);
     if (score > 0) {
         removeSegments(segment1, segment2);
@@ -106,8 +106,8 @@ void Game::setAndDisplayNextBatchColors()
     m_panel->updatePanel(m_next_batch_colors);
 }
 
-std::vector<Coordinate> Game::getConsecutiveCoordWithSameColor(const Coordinate origin,
-                                                               const Coordinate direction) const
+std::vector<Coordinate> Game::getSegmentWithSameColor(const Coordinate origin,
+                                                      const Coordinate direction) const
 {
     std::vector<Coordinate> tiles;
     const std::optional<BallColor> origin_color_or = m_board->getBallColor(origin);

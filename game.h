@@ -59,8 +59,8 @@ private:
     // Returns coordinates of consecutive tiles with the same color ball as
     // the ball at `origin` in a given `direction` if they exist. This does
     // not include the Tile at the `origin`.
-    std::vector<Coordinate> getConsecutiveCoordWithSameColor(const Coordinate origin,
-                                                             const Coordinate direction) const;
+    std::vector<Coordinate> getSegmentWithSameColor(const Coordinate origin,
+                                                    const Coordinate direction) const;
 
     // Returns the score of the line. Can be 0 if the line doesn't qualify.
     // `segment1` and `segment2`, together with the origin (the spacing in

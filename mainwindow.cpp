@@ -20,8 +20,9 @@ void MainWindow::initializeUi()
     ui->boardGraphicsView->setScene(m_game->boardScene());
     ui->panelGraphicsView->setScene(m_game->panelScene());
     connect(ui->newGameButton, &QPushButton::clicked, this, &MainWindow::onNewGameButtonClicked);
+    ui->undoButton->setDisabled(true);
     connect(ui->undoButton, &QPushButton::clicked, this, &MainWindow::onUndoButtonClicked);
-    connect(m_game, &Game::scoreUpdated, this, &MainWindow::onScoreUpdated);
+    connect(m_game, &Game::gameTurnCompleted, this, &MainWindow::onGameTurnCompleted);
     m_record_score = getRecordScore();
     ui->recordScoreBox->display(m_record_score);
 }
@@ -38,12 +39,14 @@ void MainWindow::onNewGameButtonClicked()
 void MainWindow::onUndoButtonClicked()
 {
     m_game->undo();
+    ui->undoButton->setDisabled(true);
 }
 
-void MainWindow::onScoreUpdated(int score)
+void MainWindow::onGameTurnCompleted(int score)
 {
     ui->scoreBox->display(score);
     maybeUpdateRecordScore(score);
+    ui->undoButton->setDisabled(false);
 }
 
 void MainWindow::maybeUpdateRecordScore(int score)

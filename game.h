@@ -16,7 +16,7 @@ public:
     void undo();
 
 signals:
-    void scoreUpdated(int score);
+    void gameTurnCompleted(int score);
 
 private:
     const int kGridSize = 9;
@@ -39,7 +39,7 @@ private:
     // Calculates the score, emits a signal to update the displayed score and
     // eliminates lines, if any line is formed at the `coordinate`. Otherwise,
     // adds new balls to the board.
-    void scoreAndUpdateBoard(const Coordinate coordinate);
+    void completeGameTurn(const Coordinate coordinate);
 
     void setAndDisplayNextBatchColors();
 

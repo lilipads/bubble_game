@@ -7,7 +7,7 @@ Game::Game(QWidget *parent)
     , m_board(new Board(kGridSize, this))
     , m_panel(new NextBatchPanel(kNewBalls, this))
 {
-    connect(m_board, &Board::userTurnCompleted, this, &Game::scoreAndUpdateBoard);
+    connect(m_board, &Board::userTurnCompleted, this, &Game::completeGameTurn);
     addNewBalls();
 }
 
@@ -33,10 +33,10 @@ void Game::undo()
     // Undoes score.
     m_score -= m_delta_score;
     m_delta_score = 0;
-    emit scoreUpdated(m_score);
+    emit gameTurnCompleted(m_score);
 }
 
-void Game::scoreAndUpdateBoard(const Coordinate coordinate)
+void Game::completeGameTurn(const Coordinate coordinate)
 {
     m_delta_score = 0;
     updateDeltaScoreAndRemoveLines(coordinate);
@@ -48,7 +48,7 @@ void Game::scoreAndUpdateBoard(const Coordinate coordinate)
         m_curr_batch_colors = m_next_batch_colors;
     }
     m_score += m_delta_score;
-    emit scoreUpdated(m_score);
+    emit gameTurnCompleted(m_score);
 }
 
 void Game::updateDeltaScoreAndRemoveLines(const Coordinate coordinate)

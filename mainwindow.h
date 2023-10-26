@@ -34,8 +34,8 @@ private:
 
     void initializeUi();
 
-    // Updates the score boxes display.
-    void onScoreUpdated(int score);
+    // Updates the score boxes display and enables undo button.
+    void onGameTurnCompleted(int score);
 
     // Updates the record score and its display if `score` is higher than the
     // current record.

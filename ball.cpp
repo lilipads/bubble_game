@@ -28,22 +28,15 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 QRadialGradient Ball::generateGradient(const BallColor &base_color) const
 {
     const QColor q_base_color = toQColor(base_color);
-    const int r = q_base_color.red();
-    const int g = q_base_color.green();
-    const int b = q_base_color.blue();
-
-    const QColor bright_shade(qMin(r + 240, 255), qMin(g + 240, 255), qMin(b + 240, 255));
-    const QColor intermediate_shade(qMin(r + 50, 255), qMin(g + 50, 255), qMin(b + 50, 255));
-    const QColor dark_shade(qMax(r - 155, 0), qMax(g - 155, 0), qMax(b - 155, 0));
 
     QRadialGradient gradient(/*cx=*/kSize / 2,
                              /*cy=*/kSize / 2,
                              /*radius=*/kSize / 2,
                              /*fx=*/kSize / 4,
                              /*fy=*/kSize / 4);
-    gradient.setColorAt(0.0, bright_shade);
-    gradient.setColorAt(0.5, intermediate_shade);
-    gradient.setColorAt(0.9, dark_shade);
+    gradient.setColorAt(0.0, q_base_color.lighter());
+    gradient.setColorAt(0.7, q_base_color);
+    gradient.setColorAt(1.0, q_base_color.darker());
 
     return gradient;
 }

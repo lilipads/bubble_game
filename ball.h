@@ -7,7 +7,7 @@
 #include <QPropertyAnimation>
 
 const int kNumColors = 6;
-enum class BallColor { Red, Yellow, Brown, Green, Blue, Cyan };
+enum class BallColor { Red, Yellow, Brown, Green, Blue, White };
 
 inline QColor toQColor(const BallColor &color)
 {
@@ -22,8 +22,8 @@ inline QColor toQColor(const BallColor &color)
         return Qt::green;
     case BallColor::Blue:
         return Qt::blue;
-    case BallColor::Cyan:
-        return Qt::cyan;
+    case BallColor::White:
+        return Qt::white;
     default:
         throw std::invalid_argument("Unsupported color!");
     }

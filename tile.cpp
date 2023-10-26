@@ -20,11 +20,9 @@ void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     const QColor tile_color(200, 200, 200);
     const QColor light_shade = Qt::white; // Lighter shade for top and left
     const QColor dark_shade = Qt::black;  // Darker shade for bottom and right
+    const qreal gradient_width = 4.0;
 
-    // Draw the main rectangle with solid color
     painter->fillRect(rect, tile_color);
-
-    const qreal gradient_width = 4.0; // Adjust this value to change the apparent gradient thickness
 
     // Top gradient (light_shade to tile_color)
     QLinearGradient top_gradient(rect.topLeft(), rect.topLeft() + QPointF(0, gradient_width));

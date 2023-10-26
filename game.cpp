@@ -23,40 +23,38 @@ QGraphicsScene *Game::panelScene() const
 
 void Game::scoreAndUpdateBoard(const Coordinate coordinate)
 {
-    const int delta_score = getDeltaScoreAndRemoveLines(coordinate);
-    m_score += delta_score;
-    if (delta_score == 0) {
+    m_delta_score = 0;
+    updateDeltaScoreAndRemoveLines(coordinate);
+    if (m_delta_score == 0) {
         addNewBalls();
     }
+    m_score += m_delta_score;
     emit scoreUpdated(m_score);
 }
 
-int Game::getDeltaScoreAndRemoveLines(const Coordinate coordinate)
+void Game::updateDeltaScoreAndRemoveLines(const Coordinate coordinate)
 {
-    int delta_score = 0;
     // Horizontal.
-    scoreLineAndRemoveSegments(coordinate, {.x = 1, .y = 0}, kNonDiagLineScore, delta_score);
+    scoreLineAndRemoveSegments(coordinate, {.x = 1, .y = 0}, kNonDiagLineScore);
 
     // Vertical.
-    scoreLineAndRemoveSegments(coordinate, {.x = 0, .y = 1}, kNonDiagLineScore, delta_score);
+    scoreLineAndRemoveSegments(coordinate, {.x = 0, .y = 1}, kNonDiagLineScore);
 
     // Forward slash.
-    scoreLineAndRemoveSegments(coordinate, {.x = 1, .y = 1}, kDiagLineScore, delta_score);
+    scoreLineAndRemoveSegments(coordinate, {.x = 1, .y = 1}, kDiagLineScore);
 
     // Backward slash.
-    scoreLineAndRemoveSegments(coordinate, {.x = 1, .y = -1}, kNonDiagLineScore, delta_score);
+    scoreLineAndRemoveSegments(coordinate, {.x = 1, .y = -1}, kNonDiagLineScore);
 
-    if (delta_score > 0) {
+    if (m_delta_score > 0) {
         // Removes the origin.
         m_board->removeBall(coordinate);
     }
-    return delta_score;
 }
 
 void Game::scoreLineAndRemoveSegments(const Coordinate origin,
                                       const Coordinate direction,
-                                      const int per_ball_score,
-                                      int &delta_score)
+                                      const int per_ball_score)
 {
     const auto segment1 = getSegmentWithSameColor(origin, direction);
     const auto segment2 = getSegmentWithSameColor(origin, -direction);
@@ -64,7 +62,7 @@ void Game::scoreLineAndRemoveSegments(const Coordinate origin,
     if (score > 0) {
         removeSegments(segment1, segment2);
     }
-    delta_score += score;
+    m_delta_score += score;
 }
 
 void Game::addNewBalls()
@@ -79,7 +77,7 @@ void Game::addNewBalls()
             // A newly placed ball can form a qualifying line (e.g. if there are already 4
             // consecutive balls, and a new ball is added to the end of the line).
             // Also adds that to the score.
-            m_score += getDeltaScoreAndRemoveLines(*coordinate_or);
+            updateDeltaScoreAndRemoveLines(*coordinate_or);
         }
     }
     setAndDisplayNextBatchColors();

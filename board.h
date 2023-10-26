@@ -34,6 +34,12 @@ public:
     // of range.
     std::optional<BallColor> getBallColor(Coordinate coordinate);
 
+    // Undoes the most recent move.
+    void undo();
+
+    // Clears the data on the recent move to disallow an undo.
+    void clearRecentMoveData();
+
 signals:
     void userTurnCompleted(Coordinate coordinate);
 
@@ -45,6 +51,9 @@ private:
     std::optional<Coordinate> m_move_from;
     // Keeps track of emtpy tiles.
     QSet<Coordinate> m_empty_tiles;
+    std::vector<Coordinate> m_newly_added_balls;
+    std::vector<Coordinate> m_newly_removed_balls;
+    std::vector<BallColor> m_newly_removed_ball_colors;
 
     // Renders an empty grid UI.
     void initializeTiles();

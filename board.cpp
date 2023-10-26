@@ -36,13 +36,20 @@ void Board::addBall(const BallColor color, const Coordinate coordinate)
     Ball *ball = new Ball(color, tile->size());
     tile->setBall(ball);
     m_empty_tiles.remove(coordinate);
+    m_newly_added_balls.push_back(coordinate);
 }
 
 void Board::removeBall(const Coordinate coordinate)
 {
     Tile *fromTile = getTile(coordinate);
+    BallColor color;
+    if (fromTile->hasBall()) {
+        color = fromTile->ball()->color();
+    }
     fromTile->removeBall();
     m_empty_tiles.insert(coordinate);
+    m_newly_removed_balls.push_back(coordinate);
+    m_newly_removed_ball_colors.push_back(color);
 }
 
 void Board::moveBall(const Coordinate from, const Coordinate to)
@@ -50,6 +57,32 @@ void Board::moveBall(const Coordinate from, const Coordinate to)
     BallColor color = getTile(from)->ball()->color();
     addBall(color, to);
     removeBall(from);
+}
+
+void Board::undo()
+{
+    // Makes a copy of the vectors so as we add and remove balls,
+    // they don't get changed.
+    std::vector<Coordinate> balls_to_add = m_newly_removed_balls;
+    std::vector<BallColor> colors_of_balls_to_add = m_newly_removed_ball_colors;
+    std::vector<Coordinate> balls_to_remove = m_newly_added_balls;
+
+    for (const Coordinate coordinate : balls_to_remove) {
+        removeBall(coordinate);
+    }
+    for (int i = 0; i < balls_to_add.size() && i < colors_of_balls_to_add.size(); ++i) {
+        addBall(colors_of_balls_to_add[i], balls_to_add[i]);
+    }
+
+    // Clears the data so the user cannot undo the undo.
+    clearRecentMoveData();
+}
+
+void Board::clearRecentMoveData()
+{
+    m_newly_added_balls.clear();
+    m_newly_removed_balls.clear();
+    m_newly_removed_ball_colors.clear();
 }
 
 void Board::onSelectEmptyTile(const Coordinate move_to)

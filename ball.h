@@ -43,7 +43,7 @@ public:
     void stopAnimation();
     bool isAnimating();
     qreal scaleY() const { return transform().m22(); }
-    void setScaleY(qreal scaleY);
+    void setScaleY(qreal scale_y);
 
 signals:
     void scaleYChanged();

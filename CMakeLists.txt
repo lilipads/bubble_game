@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 
 project(bubbles VERSION 0.1 LANGUAGES CXX)
 
+set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "BLPJW482Y4")
+set(CMAKE_XCODE_ATTRIBUTE_PROVISIONING_PROFILE_SPECIFIER "3a508e15-fd9a-4a40-9b6b-8fcf46b73bab")
+
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -61,7 +64,7 @@ target_link_libraries(bubbles PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
 if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.bubbles)
+  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.lilijiang.bubbles)
 endif()
 set_target_properties(bubbles PROPERTIES
     ${BUNDLE_ID_OPTION}

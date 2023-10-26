@@ -29,8 +29,9 @@ private:
     int m_score;
     std::vector<BallColor> m_next_batch_colors;
 
-    // Updates m_score and eliminates lines if any line is formed at the
-    // `coordinate`. Otherwise, adds new ball to the board.
+    // Calculates the score, emits a signal to update the displayed score and
+    // eliminates lines, if any line is formed at the `coordinate`. Otherwise,
+    // adds new balls to the board.
     void scoreAndUpdateBoard(const Coordinate coordinate);
 
     void setAndDisplayNextBatchColors();
@@ -38,8 +39,8 @@ private:
     // Randomly samples colors with replacement.
     std::vector<BallColor> getNextBatchColors() const;
 
-    // Adds up to kNewBalls balls when there is still space, and update the
-    // display panel for the next batch of balls.-
+    // Adds up to kNewBalls balls when there is still space, and updates the
+    // display panel for the next batch of balls.
     void addNewBalls();
 
     // Returns incremental score for lines formed in any direction containing
@@ -49,22 +50,22 @@ private:
 
     // Scores a line containing the `origin` in `direction` and its opposite
     // direction, (e.g. `direction` = (0, 1) means the vertical direction, both
-    // up and down). If the line has a score, update `delta_score` and removes
+    // up and down). If the line has a score, updates `delta_score` and removes
     // the line except `origin` from the board.
     void scoreLineAndRemoveSegments(const Coordinate origin,
                                     const Coordinate direction,
                                     const int per_ball_score,
                                     int &delta_score);
 
-    // Returns coordinates of consecutive tiles with the same color ball as
-    // the ball at `origin` in a given `direction` if they exist. This does
-    // not include the Tile at the `origin`.
+    // Returns coordinates of consecutive tiles with balls of the same color as
+    // that of the ball at `origin` in a given `direction` if they exist. This
+    // does not include the Tile at the `origin`.
     std::vector<Coordinate> getSegmentWithSameColor(const Coordinate origin,
                                                     const Coordinate direction) const;
 
     // Returns the score of the line. Can be 0 if the line doesn't qualify.
     // `segment1` and `segment2`, together with the origin (the spacing in
-    //  between the two segments), joins togehter to form a consecutive line.
+    // between the two segments), join togehter to form a consecutive line.
     int scoreLine(const std::vector<Coordinate> &segment1,
                   const std::vector<Coordinate> &segment2,
                   const int per_ball_score) const;

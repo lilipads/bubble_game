@@ -30,7 +30,7 @@ public:
     std::optional<Coordinate> getRandomEmptyGrid();
 
     // Returns the ball color if a ball exists at `coordinate`. Returns
-    // nullopt if no ball exists at `coordinate`or if `coordinate` is out
+    // nullopt if no ball exists at `coordinate` or if `coordinate` is out
     // of range.
     std::optional<BallColor> getBallColor(Coordinate coordinate);
 

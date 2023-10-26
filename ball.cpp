@@ -49,7 +49,7 @@ void Ball::setScaleY(qreal scale_y)
     t.setMatrix(t.m11(), t.m12(), t.m13(), t.m21(), scale_y, t.m23(), t.m31(), t.m32(), t.m33());
     setTransform(t);
 
-    // Shifts y to keeps the bottom position fixed.
+    // Shifts y to keep the bottom position fixed.
     qreal pos_y = kSize * (1.0 - scale_y);
     setPos(pos().x(), pos_y);
 
@@ -70,6 +70,7 @@ void Ball::initializeAnimation()
     m_animation = new QPropertyAnimation(this, "scaleY");
     m_animation->setDuration(kDuration);
     m_animation->setStartValue(1.0);
+
     // Squashes the ball vertically at half duration
     m_animation->setKeyValueAt(0.5, kSquashRatio);
     m_animation->setEndValue(1.0);
